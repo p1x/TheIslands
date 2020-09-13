@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Unity.Collections;
 using UnityEngine;
@@ -99,27 +101,44 @@ namespace TheIslands {
         }
 
         public Vector3 size;
-        
-        public IScalarField Field { get; } = new SphereField();
+
+        public CompositeField Field { get; } = new CompositeField() {
+            new SphereField { Center = Vector3.one },
+            new SphereField { Center = Vector3.zero }
+        };
     }
 
     public interface IScalarField {
         float GetValue(float x, float y, float z);
+        float GetValue(Vector3 position);
     }
 
     public class SphereField : IScalarField {
         public Vector3 Center { get; set; } = Vector3.zero;
         public float HalfValueRadius { get; set; } = 10;
-        
-        public float GetValue(float x, float y, float z) {
-            var distance = Vector3.Distance(Center, new Vector3(x, y, z));
+
+        public float GetValue(float x, float y, float z) => GetValue(new Vector3(x, y, z));
+        public float GetValue(Vector3 position) {
+            var distance = Vector3.Distance(Center, position);
             var radius   = HalfValueRadius * 2;
             var value    = Mathf.Max(1 - distance / radius, 0);
             return value;
         }
     }
 
-    public static class FieldExtensions {
-        public static float GetValue(this IScalarField field, Vector3 position) => field.GetValue(position.x, position.y, position.z);
+    public class CompositeField : List<IScalarField>, IScalarField {
+        public float GetValue(float x, float y, float z) {
+            var result = 1f;
+            for (var i = 0; i < Count; i++)
+                result *= this[i].GetValue(x, y, z);
+            return result;
+        }
+
+        public float GetValue(Vector3 position) {
+            var result = 1f;
+            for (var i = 0; i < Count; i++)
+                result *= this[i].GetValue(position);
+            return result;
+        }
     }
 }

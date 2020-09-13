@@ -20,6 +20,7 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="FieldEditor.cs" t="Include" />
+          <e p="FieldRenderer.cs" t="Include" />
           <e p="MeshEditorSettingsWindow.cs" t="Include" />
           <e p="MeshGenerator.cs" t="Include" />
           <e p="Utils.cs" t="Include" />

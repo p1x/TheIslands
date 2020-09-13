@@ -5,15 +5,15 @@ using UnityEngine.Rendering;
 namespace TheIslands {
     [RequireComponent(typeof(MeshFilter))]
     public class MeshGenerator : MonoBehaviour {
-        private int _generatedMeshId = -1;
-        
         private static readonly VertexAttributeDescriptor[] VertexAttributes = {
             new VertexAttributeDescriptor(VertexAttribute.Position),
             new VertexAttributeDescriptor(VertexAttribute.Normal),
         };
 
+        private int _generatedMeshId = -1;
+        
         private void OnValidate() {
-            var meshFilter   = GetComponent<MeshFilter>();
+            var meshFilter = GetComponent<MeshFilter>();
 
             var mesh = meshFilter.sharedMesh;
             if (mesh == null || mesh.GetInstanceID() != _generatedMeshId)
@@ -83,7 +83,7 @@ namespace TheIslands {
             
             //mesh.RecalculateNormals();
             //mesh.MarkModified();
-            //mesh.UploadMeshData(false);
+            //mesh.UploadMeshData(true);
             mesh.bounds = new Bounds(size / 2, size);
         }
         

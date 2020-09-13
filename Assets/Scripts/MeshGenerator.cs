@@ -1,4 +1,6 @@
-﻿using Unity.Collections;
+﻿using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -97,5 +99,27 @@ namespace TheIslands {
         }
 
         public Vector3 size;
+        
+        public IScalarField Field { get; } = new SphereField();
+    }
+
+    public interface IScalarField {
+        float GetValue(float x, float y, float z);
+    }
+
+    public class SphereField : IScalarField {
+        public Vector3 Center { get; set; } = Vector3.zero;
+        public float HalfValueRadius { get; set; } = 10;
+        
+        public float GetValue(float x, float y, float z) {
+            var distance = Vector3.Distance(Center, new Vector3(x, y, z));
+            var radius   = HalfValueRadius * 2;
+            var value    = Mathf.Max(1 - distance / radius, 0);
+            return value;
+        }
+    }
+
+    public static class FieldExtensions {
+        public static float GetValue(this IScalarField field, Vector3 position) => field.GetValue(position.x, position.y, position.z);
     }
 }

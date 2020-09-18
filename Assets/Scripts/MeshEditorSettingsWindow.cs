@@ -14,12 +14,13 @@ namespace TheIslands {
         }
 
         private void OnGUI() {
-            _editor.FieldRenderer.FieldSamplingRate = EditorGUILayout.FloatField("Sampling Rate:", _editor.FieldRenderer.FieldSamplingRate);
-            _editor.FieldRenderer.MinSize           = EditorGUILayout.Slider("Point Min Size:", _editor.FieldRenderer.MinSize,  0,                              _editor.FieldRenderer.MaxSize);
-            _editor.FieldRenderer.MaxSize           = EditorGUILayout.Slider("Point Max Size:", _editor.FieldRenderer.MaxSize,  _editor.FieldRenderer.MinSize,  1);
-            _editor.FieldRenderer.MinValue          = EditorGUILayout.Slider("Min Value:",      _editor.FieldRenderer.MinValue, 0,                              _editor.FieldRenderer.MaxValue);
-            _editor.FieldRenderer.MaxValue          = EditorGUILayout.Slider("Max Value:",      _editor.FieldRenderer.MaxValue, _editor.FieldRenderer.MinValue, 1);
-            _editor.FieldRenderer.Color             = EditorGUILayout.ColorField("Point Color:", _editor.FieldRenderer.Color);
+            var r = _editor.FieldRenderer;
+            r.FieldSamplingRate = EditorGUILayout.FloatField("Sampling Rate:", r.FieldSamplingRate);
+            r.MinSize           = EditorGUILayout.Slider("Point Min Size:", r.MinSize,  0,          r.MaxSize);
+            r.MaxSize           = EditorGUILayout.Slider("Point Max Size:", r.MaxSize,  r.MinSize,  1);
+            r.MinValue          = EditorGUILayout.Slider("Min Value:",      r.MinValue, 0,          r.MaxValue);
+            r.MaxValue          = EditorGUILayout.Slider("Max Value:",      r.MaxValue, r.MinValue, 1);
+            r.Gradient          = EditorGUILayout.GradientField("Color Map:", r.Gradient);
         }
     }
 }

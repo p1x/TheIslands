@@ -102,22 +102,20 @@ namespace TheIslands {
 
         public Vector3 size;
 
-        public CompositeField Field { get; } = new CompositeField() {
+        public CompositeField Field { get; } = new CompositeField {
             new SphereField { Center = Vector3.one },
             new SphereField { Center = Vector3.zero }
         };
     }
 
     public interface IScalarField {
-        float GetValue(float x, float y, float z);
         float GetValue(Vector3 position);
     }
-
+    
     public class SphereField : IScalarField {
         public Vector3 Center { get; set; } = Vector3.zero;
         public float HalfValueRadius { get; set; } = 10;
 
-        public float GetValue(float x, float y, float z) => GetValue(new Vector3(x, y, z));
         public float GetValue(Vector3 position) {
             var distance = Vector3.Distance(Center, position);
             var radius   = HalfValueRadius * 2;
@@ -127,18 +125,11 @@ namespace TheIslands {
     }
 
     public class CompositeField : List<IScalarField>, IScalarField {
-        public float GetValue(float x, float y, float z) {
-            var result = 1f;
-            for (var i = 0; i < Count; i++)
-                result *= this[i].GetValue(x, y, z);
-            return result;
-        }
-
         public float GetValue(Vector3 position) {
-            var result = 1f;
+            var result = 0f;
             for (var i = 0; i < Count; i++)
-                result *= this[i].GetValue(position);
-            return result;
+                result += this[i].GetValue(position);
+            return result / Count;
         }
     }
 }

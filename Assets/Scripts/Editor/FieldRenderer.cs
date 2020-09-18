@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using TheIslands.Core;
 using UnityEditor;
 using UnityEngine;
 
-namespace TheIslands {
+namespace TheIslands.Editor {
     public class FieldRenderer {
         public const float MinSamplingRate = 0.1f;
 

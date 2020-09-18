@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TheIslands {
+namespace TheIslands.Core {
     public static class Utils {
         public static void RiseAndSetIfChanged<T>(ref T field, in T value, Action action) where T : struct, IEquatable<T> {
             if (field.Equals(value))

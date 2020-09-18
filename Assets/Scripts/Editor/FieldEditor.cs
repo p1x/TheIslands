@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using TheIslands.Core;
+using TheIslands.Procedural;
 using UnityEditor;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
-namespace TheIslands {
+namespace TheIslands.Editor {
     [EditorTool("Show Field", typeof(MeshGenerator))]
     public class FieldEditor : EditorTool {
 

@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+﻿using TheIslands.Core;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace TheIslands {
+namespace TheIslands.Procedural {
     [RequireComponent(typeof(MeshFilter))]
     public class MeshGenerator : MonoBehaviour {
         private static readonly VertexAttributeDescriptor[] VertexAttributes = {
@@ -106,30 +103,5 @@ namespace TheIslands {
             new SphereField { Center = Vector3.one },
             new SphereField { Center = Vector3.zero }
         };
-    }
-
-    public interface IScalarField {
-        float GetValue(Vector3 position);
-    }
-    
-    public class SphereField : IScalarField {
-        public Vector3 Center { get; set; } = Vector3.zero;
-        public float HalfValueRadius { get; set; } = 10;
-
-        public float GetValue(Vector3 position) {
-            var distance = Vector3.Distance(Center, position);
-            var radius   = HalfValueRadius * 2;
-            var value    = Mathf.Max(1 - distance / radius, 0);
-            return value;
-        }
-    }
-
-    public class CompositeField : List<IScalarField>, IScalarField {
-        public float GetValue(Vector3 position) {
-            var result = 0f;
-            for (var i = 0; i < Count; i++)
-                result += this[i].GetValue(position);
-            return result / Count;
-        }
     }
 }

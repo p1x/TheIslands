@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace TheIslands {
+namespace TheIslands.Editor {
     public class MeshEditorSettingsWindow : EditorWindow {
         private const string Title = "Field Editor Settings";
         private FieldEditor _editor;

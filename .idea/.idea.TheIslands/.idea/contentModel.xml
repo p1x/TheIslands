@@ -6,7 +6,6 @@
     <e p="C:\Users\P1XeL\AppData\Roaming\JetBrains\Rider2020.2\scratches" t="IncludeRecursive" />
     <e p="C:\Users\P1XeL\Documents\Projects\TheIslands" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
-      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Plugins" t="Include">
           <e p="GitHub" t="Include">
@@ -19,18 +18,37 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
-          <e p="FieldEditor.cs" t="Include" />
-          <e p="FieldRenderer.cs" t="Include" />
-          <e p="MeshEditorSettingsWindow.cs" t="Include" />
-          <e p="MeshGenerator.cs" t="Include" />
-          <e p="Utils.cs" t="Include" />
+          <e p="Core" t="Include">
+            <e p="CompositeField.cs" t="Include" />
+            <e p="Core.asmdef" t="Include" />
+            <e p="IScalarField.cs" t="Include" />
+            <e p="SphereField.cs" t="Include" />
+            <e p="Utils.cs" t="Include" />
+          </e>
+          <e p="Editor" t="Include">
+            <e p="Editor.asmdef" t="Include" />
+            <e p="FieldEditor.cs" t="Include" />
+            <e p="FieldRenderer.cs" t="Include" />
+            <e p="MeshEditorSettingsWindow.cs" t="Include" />
+          </e>
+          <e p="Procedural" t="Include">
+            <e p="MeshGenerator.cs" t="Include" />
+            <e p="Procedural.asmdef" t="Include" />
+          </e>
         </e>
-        <e p="Shaders" t="Include">
-          <e p="FieldShader.shader" t="Include" />
+        <e p="Tests" t="Include">
+          <e p="EditMode" t="Include">
+            <e p="EditMode.asmdef" t="Include" />
+            <e p="FieldsTests.cs" t="Include" />
+          </e>
         </e>
       </e>
+      <e p="Core.csproj" t="IncludeRecursive" />
+      <e p="EditMode.csproj" t="IncludeRecursive" />
+      <e p="Editor.csproj" t="IncludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
+      <e p="Procedural.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
       <e p="TheIslands.sln" t="IncludeFlat" />
     </e>

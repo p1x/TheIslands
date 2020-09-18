@@ -102,8 +102,8 @@ namespace TheIslands.Procedural {
         public Vector3 size;
 
         public CompositeField Field { get; } = new CompositeField {
-            new SphereField { Center = Vector3.one },
-            new SphereField { Center = Vector3.zero }
+            new SphereField { Center = Vector3.one,  MaxValue = 1},
+            new SphereField { Center = Vector3.zero, MaxValue = 1}
         };
     }
 }

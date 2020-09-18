@@ -64,11 +64,15 @@ namespace TheIslands.Tests.EditMode {
             Assert.AreEqual(expectedResult, actualResult, 0.00001);
         }
         
-        [TestCase(0f,  0f, 0f, 5.12821f)]
-        [TestCase(5f,  0f, 0f, 0.64568f)]
-        [TestCase(10f, 0f, 0f, 0.5f)]
-        [TestCase(15f, 0f, 0f, 0.64568f)]
-        [TestCase(20f, 0f, 0f, 5.12821f)]
+        // Wolfram Language Code:
+        //   ReplaceAll[(10/(1 + Abs[x] 1.9) + 10/(1 + Abs[20 - x] 1.9))/(1 + (10/(1 + Abs[x] 1.9)) (10/(1 + Abs[20 - x] 1.9))), {x -> {0, 5, 10, 15, 20}}]
+        // Results:
+        //   {2.8777, 0.976205, 0.8, 0.976205, 2.8777}
+        [TestCase(0f,  0f, 0f, 2.877700f)]
+        [TestCase(5f,  0f, 0f, 0.97620f)]
+        [TestCase(10f, 0f, 0f, 0.8f)]
+        [TestCase(15f, 0f, 0f, 0.976205f)]
+        [TestCase(20f, 0f, 0f, 2.877700f)]
         public void TwoSphereCompositeFieldTests(float x, float y, float z, float expectedResult) {
             var field = new CompositeField {
                 new SphereField { Center = new Vector3(0,  0, 0) },

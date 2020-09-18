@@ -21,12 +21,18 @@ namespace TheIslands.Core {
 
         public float HalfValueRadius {
             get => _halfValueRadius;
-            set => _halfValueRadius = value;
+            set {
+                _halfValueRadius = value;
+                UpdateCache();
+            }
         }
 
         public float MaxValue {
             get => _maxValue;
-            set => _maxValue = value;
+            set {
+                _maxValue = value;
+                UpdateCache();
+            }
         }
     }
 }

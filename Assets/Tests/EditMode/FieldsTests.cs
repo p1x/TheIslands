@@ -49,6 +49,21 @@ namespace TheIslands.Tests.EditMode {
             Assert.AreEqual(expectedResult, actualResult, 0.00001);
         }
 
+        [TestCase(0f,  0f, 0f, 10f, 10f)]
+        [TestCase(10f, 0f, 0f, 5f,  0.25641f)]
+        [TestCase(10f, 0f, 0f, 10f, 0.5f)]
+        [TestCase(10f, 0f, 0f, 15f, 0.73170f)]
+        public void CustomPropertiesSphereFieldTests(float x, float y, float z, float r, float expectedResult) {
+            var field = new SphereField {
+                HalfValueRadius = r,
+                Center = new Vector3(x, y, z)
+            };
+
+            var actualResult = field.GetValue(Vector3.zero);
+
+            Assert.AreEqual(expectedResult, actualResult, 0.00001);
+        }
+        
         [TestCase(0f,  0f, 0f, 5.12821f)]
         [TestCase(5f,  0f, 0f, 0.64568f)]
         [TestCase(10f, 0f, 0f, 0.5f)]

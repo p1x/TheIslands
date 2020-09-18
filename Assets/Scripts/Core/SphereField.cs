@@ -2,14 +2,31 @@
 
 namespace TheIslands.Core {
     public class SphereField : IScalarField {
-        public Vector3 Center { get; set; } = Vector3.zero;
-        public float HalfValueRadius { get; set; } = 10;
+        private float _halfValueRadius = 10;
+        private float _maxValue = 10;
 
-        public float GetValue(Vector3 position) {
-            var distance = Vector3.Distance(Center, position);
-            var radius   = HalfValueRadius * 2;
-            var value    = Mathf.Max(1 - distance / radius, 0);
-            return value;
+        private float _a;
+        private float _b;
+
+        public SphereField() => UpdateCache();
+
+        public float GetValue(Vector3 position) => _b / (_a + Vector3.Distance(Center, position));
+
+        private void UpdateCache() {
+            _a = _halfValueRadius / (2 * _maxValue - 1);
+            _b = _maxValue * _a;
+        }
+
+        public Vector3 Center { get; set; } = Vector3.zero;
+
+        public float HalfValueRadius {
+            get => _halfValueRadius;
+            set => _halfValueRadius = value;
+        }
+
+        public float MaxValue {
+            get => _maxValue;
+            set => _maxValue = value;
         }
     }
 }

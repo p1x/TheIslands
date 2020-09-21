@@ -35,12 +35,13 @@ namespace TheIslands.Editor.FieldEditorTool {
                 if (evt.type == EventType.Repaint)
                     FieldRenderer.Render(field, meshGenerator.size, meshGenerator.transform.localToWorldMatrix);
 
-                //EditorGUI.BeginChangeCheck();
+                using (var changeCheckScope = new EditorGUI.ChangeCheckScope()) {
+                    if (FieldTools.TryGetValue(field.GetType(), out var fieldEditor))
+                        fieldEditor.OnToolGUI(field);
 
-                if (FieldTools.TryGetValue(field.GetType(), out var fieldEditor))
-                    fieldEditor.OnToolGUI(field);
-
-                //EditorGUI.EndChangeCheck();
+                    if (changeCheckScope.changed)
+                        EditorUtility.SetDirty(target);
+                }
             }
         }
         

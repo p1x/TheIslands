@@ -31,7 +31,7 @@ namespace TheIslands.Editor.FieldEditorTool {
             var evt = Event.current;
             if (target is GameObject go && 
                 go.GetComponent<MeshGenerator>() is MeshGenerator meshGenerator &&
-                meshGenerator.field is IScalarField field) {
+                meshGenerator.Field is IScalarField field) {
                 if (evt.type == EventType.Repaint)
                     FieldRenderer.Render(field, meshGenerator.size, meshGenerator.transform.localToWorldMatrix);
 

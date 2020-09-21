@@ -23,6 +23,6 @@ namespace TheIslands.Editor.FieldCustomEditor {
         public static string[] FieldNames => _fieldNamesLazy.Value;
         private static string[] CreateFieldTypeNames() => _fieldTypes.Select(x => x.Name).ToArray();
 
-        public static ScalarField Create(int nameIndex) => (ScalarField)ScriptableObject.CreateInstance(_fieldTypes[nameIndex]);
+        public static ScalarField Create(int nameIndex) => (ScalarField)Activator.CreateInstance(_fieldTypes[nameIndex]); //ScriptableObject.CreateInstance(_fieldTypes[nameIndex]);
     }
 }

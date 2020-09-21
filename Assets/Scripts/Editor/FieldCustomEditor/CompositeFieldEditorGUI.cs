@@ -7,7 +7,7 @@ namespace TheIslands.Editor.FieldCustomEditor {
     [Preserve]
     public class CompositeFieldEditorGUI : FieldEditorGUI<CompositeField> {
         public override void OnGUI(CompositeField field) {
-            field.items.RemoveAll(x => {
+            field.Items.RemoveAll(x => {
                 bool remove;
                 using (new EditorGUILayout.HorizontalScope()) {
                     EditorGUILayout.LabelField(x.GetType().Name);
@@ -15,14 +15,14 @@ namespace TheIslands.Editor.FieldCustomEditor {
                 }
                 
                 using (new EditorGUI.IndentLevelScope())
-                    InvokeGUI(x);
+                    InvokeGUI(x); 
 
                 return remove;
             });
 
             var fieldNameIndex = EditorGUILayout.Popup("Add", -1, ScalarFieldFactory.FieldNames);
             if (fieldNameIndex >= 0 && fieldNameIndex < ScalarFieldFactory.FieldNames.Length)
-                field.items.Add(ScalarFieldFactory.Create(fieldNameIndex));
+                field.Items.Add(ScalarFieldFactory.Create(fieldNameIndex));
         }
     }
 }

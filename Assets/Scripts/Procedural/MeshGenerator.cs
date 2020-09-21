@@ -1,10 +1,10 @@
-﻿using System;
-using TheIslands.Core;
+﻿using TheIslands.Core;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace TheIslands.Procedural {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(MeshFilter))]
     public class MeshGenerator : MonoBehaviour {
         private static readonly VertexAttributeDescriptor[] VertexAttributes = {
@@ -89,7 +89,7 @@ namespace TheIslands.Procedural {
             mesh.bounds = new Bounds(size / 2, size);
         }
         
-        private readonly struct Vertex {
+        private readonly struct Vertex { 
             private readonly Vector3 _position;
             private readonly Vector3 _normal;
             public Vertex(Vector3 position, Vector3 normal) {
@@ -100,11 +100,7 @@ namespace TheIslands.Procedural {
 
         public Vector3 size = new Vector3(10, 10, 10);
 
-        public CompositeField field;
-
-        private void Awake() {
-            if (field == null)
-                field = ScriptableObject.CreateInstance<CompositeField>();
-        }
+        [SerializeReference]
+        public CompositeField Field = new CompositeField();
     }
 }

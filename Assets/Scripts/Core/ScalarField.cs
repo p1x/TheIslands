@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TheIslands.Core {
-    public abstract class ScalarField : ScriptableObject, IScalarField {
+    [Serializable]
+    public abstract class ScalarField : IScalarField { 
         public abstract float GetValue(Vector3 position);
     }
 }

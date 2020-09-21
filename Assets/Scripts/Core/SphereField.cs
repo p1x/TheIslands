@@ -1,12 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace TheIslands.Core {
+    [Serializable]
     public class SphereField : ScalarField {
+        [SerializeField, HideInInspector]
         private float _halfValueRadius = 2;
+        [SerializeField, HideInInspector]
         private float _maxValue = 1;
 
+        [SerializeField, HideInInspector]
         private float _a;
+        [SerializeField, HideInInspector]
         private float _b;
+
+        [SerializeField, HideInInspector]
+        private Vector3 _center = Vector3.zero;
 
         public SphereField() => UpdateCache();
 
@@ -17,7 +26,10 @@ namespace TheIslands.Core {
             _b = _maxValue * _a;
         }
 
-        public Vector3 Center { get; set; } = Vector3.zero;
+        public Vector3 Center {
+            get => _center;
+            set => _center = value;
+        }
 
         public float HalfValueRadius {
             get => _halfValueRadius;

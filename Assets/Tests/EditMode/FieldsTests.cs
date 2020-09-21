@@ -42,7 +42,7 @@ namespace TheIslands.Tests.EditMode {
         [TestCase(0f,  15f, 0f,  0.33898f)]
         [TestCase(0f,  0f,  15f, 0.33898f)]
         public void SphereFieldTests(float x, float y, float z, float expectedResult) {
-            var field = ScriptableObject.CreateInstance<SphereField>();
+            var field = new SphereField();//ScriptableObject.CreateInstance<SphereField>();
             field.MaxValue        = 10;
             field.HalfValueRadius = 10;
             field.Center          = Vector3.zero;
@@ -57,7 +57,7 @@ namespace TheIslands.Tests.EditMode {
         [TestCase(10f, 0f, 0f, 10f, 0.5f)]
         [TestCase(10f, 0f, 0f, 15f, 0.73170f)]
         public void CustomPropertiesSphereFieldTests(float x, float y, float z, float r, float expectedResult) {
-            var field = ScriptableObject.CreateInstance<SphereField>();
+            var field = new SphereField();//ScriptableObject.CreateInstance<SphereField>();
             field.MaxValue        = 10;
             field.HalfValueRadius = r;
             field.Center          = new Vector3(x, y, z);
@@ -77,19 +77,10 @@ namespace TheIslands.Tests.EditMode {
         [TestCase(15f, 0f, 0f, 0.976205f)]
         [TestCase(20f, 0f, 0f, 2.877700f)]
         public void TwoSphereCompositeFieldTests(float x, float y, float z, float expectedResult) {
-            var field       = ScriptableObject.CreateInstance<CompositeField>();
-            
-            var sphere1 = ScriptableObject.CreateInstance<SphereField>();
-            sphere1.MaxValue        = 10;
-            sphere1.HalfValueRadius = 10;
-            sphere1.Center          = new Vector3(0, 0, 0);
-            var sphere2 = ScriptableObject.CreateInstance<SphereField>();
-            sphere2.MaxValue        = 10;
-            sphere2.HalfValueRadius = 10;
-            sphere2.Center          = new Vector3(20, 0, 0);
-            
-            field.items.Add(sphere1);
-            field.items.Add(sphere2);
+            var field   = new CompositeField {
+                new SphereField { MaxValue = 10, HalfValueRadius = 10, Center = new Vector3(0,  0, 0) },
+                new SphereField { MaxValue = 10, HalfValueRadius = 10, Center = new Vector3(20, 0, 0) }
+            };
 
             var actualResult = field.GetValue(new Vector3(x, y, z));
 

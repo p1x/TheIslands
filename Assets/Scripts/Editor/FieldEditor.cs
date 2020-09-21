@@ -29,7 +29,7 @@ namespace TheIslands.Editor {
                 return;
             
             var evt = Event.current;
-            if (target is MeshGenerator meshGenerator && meshGenerator.Field is IScalarField field) {
+            if (target is MeshGenerator meshGenerator && meshGenerator.field is IScalarField field) {
                 if (evt.type == EventType.Repaint)
                     FieldRenderer.Render(field, meshGenerator.size);
 
@@ -68,7 +68,7 @@ namespace TheIslands.Editor {
 
     public sealed class CompositeFieldEditor : ScalarFieldEditor<CompositeField> {
         protected override void OnToolGUI(CompositeField field) {
-            foreach (var child in field)
+            foreach (var child in field.items)
                 if (FieldEditor.FieldEditors.TryGetValue(child.GetType(), out var editor))
                     editor.OnToolGUI(child);
         }

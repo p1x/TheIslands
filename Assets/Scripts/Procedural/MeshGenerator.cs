@@ -1,9 +1,9 @@
 ﻿using System;
 using TheIslands.Core;
 using Unity.Collections;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Object = UnityEngine.Object;
 
 namespace TheIslands.Procedural {
     [RequireComponent(typeof(MeshFilter))]
@@ -15,7 +15,7 @@ namespace TheIslands.Procedural {
 
         private int _generatedMeshId = -1;
         
-        private void OnValidate() {
+        public void Generate() {
             var meshFilter = GetComponent<MeshFilter>();
 
             var mesh = meshFilter.sharedMesh;
@@ -99,11 +99,13 @@ namespace TheIslands.Procedural {
             }
         }
 
-        public Vector3 size;
+        public Vector3 size = new Vector3(10, 10, 10);
 
-        public CompositeField Field { get; } = new CompositeField {
-            new SphereField { Center = Vector3.one,  MaxValue = 1},
-            new SphereField { Center = Vector3.zero, MaxValue = 1}
-        };
+        public CompositeField field;
+
+        private void Awake() {
+            if (field == null)
+                field = ScriptableObject.CreateInstance<CompositeField>();
+        }
     }
 }

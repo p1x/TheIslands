@@ -22,14 +22,21 @@
             <e p="CompositeField.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
             <e p="IScalarField.cs" t="Include" />
+            <e p="ScalarField.cs" t="Include" />
             <e p="SphereField.cs" t="Include" />
+            <e p="TypeExtensions.cs" t="Include" />
             <e p="Utils.cs" t="Include" />
           </e>
           <e p="Editor" t="Include">
+            <e p="CompositeFieldEditorGUI.cs" t="Include" />
             <e p="Editor.asmdef" t="Include" />
             <e p="FieldEditor.cs" t="Include" />
+            <e p="FieldEditorGUI.cs" t="Include" />
             <e p="FieldRenderer.cs" t="Include" />
             <e p="MeshEditorSettingsWindow.cs" t="Include" />
+            <e p="MeshGeneratorEditor.cs" t="Include" />
+            <e p="ScalarFieldFactory.cs" t="Include" />
+            <e p="SphereFieldEditorGUI.cs" t="Include" />
           </e>
           <e p="Procedural" t="Include">
             <e p="MeshGenerator.cs" t="Include" />

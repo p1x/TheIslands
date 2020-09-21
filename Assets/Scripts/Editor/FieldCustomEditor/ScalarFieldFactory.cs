@@ -4,7 +4,7 @@ using System.Linq;
 using TheIslands.Core;
 using UnityEngine;
 
-namespace TheIslands.Editor {
+namespace TheIslands.Editor.FieldCustomEditor {
     public static class ScalarFieldFactory {
         private static ReadOnlyCollection<Type> _fieldTypes = new ReadOnlyCollection<Type>(Array.Empty<Type>());
 

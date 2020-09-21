@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine.Scripting;
 
-namespace TheIslands.Editor {
+namespace TheIslands.Editor.FieldCustomEditor {
     [Preserve]
     public class SphereFieldEditorGUI : FieldEditorGUI<SphereField> {
         public override void OnGUI(SphereField field) {

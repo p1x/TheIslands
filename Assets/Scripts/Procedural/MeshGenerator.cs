@@ -3,7 +3,6 @@ using TheIslands.Core;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Object = UnityEngine.Object;
 
 namespace TheIslands.Procedural {
     [RequireComponent(typeof(MeshFilter))]

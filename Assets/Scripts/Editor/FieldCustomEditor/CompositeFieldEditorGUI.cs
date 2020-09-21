@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace TheIslands.Editor {
+namespace TheIslands.Editor.FieldCustomEditor {
     [Preserve]
     public class CompositeFieldEditorGUI : FieldEditorGUI<CompositeField> {
         public override void OnGUI(CompositeField field) {

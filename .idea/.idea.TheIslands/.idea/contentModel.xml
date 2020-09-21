@@ -25,18 +25,26 @@
             <e p="ScalarField.cs" t="Include" />
             <e p="SphereField.cs" t="Include" />
             <e p="TypeExtensions.cs" t="Include" />
+            <e p="TypeUtility.cs" t="Include" />
             <e p="Utils.cs" t="Include" />
           </e>
           <e p="Editor" t="Include">
-            <e p="CompositeFieldEditorGUI.cs" t="Include" />
             <e p="Editor.asmdef" t="Include" />
-            <e p="FieldEditor.cs" t="Include" />
-            <e p="FieldEditorGUI.cs" t="Include" />
+            <e p="FieldCustomEditor" t="Include">
+              <e p="CompositeFieldEditorGUI.cs" t="Include" />
+              <e p="FieldEditorGUI.cs" t="Include" />
+              <e p="ScalarFieldFactory.cs" t="Include" />
+              <e p="SphereFieldEditorGUI.cs" t="Include" />
+            </e>
+            <e p="FieldEditorTool" t="Include">
+              <e p="CompositeFieldTool.cs" t="Include" />
+              <e p="FieldEditorTool.cs" t="Include" />
+              <e p="ScalarFieldTool.cs" t="Include" />
+              <e p="SphereFieldTool.cs" t="Include" />
+            </e>
             <e p="FieldRenderer.cs" t="Include" />
             <e p="MeshEditorSettingsWindow.cs" t="Include" />
             <e p="MeshGeneratorEditor.cs" t="Include" />
-            <e p="ScalarFieldFactory.cs" t="Include" />
-            <e p="SphereFieldEditorGUI.cs" t="Include" />
           </e>
           <e p="Procedural" t="Include">
             <e p="MeshGenerator.cs" t="Include" />

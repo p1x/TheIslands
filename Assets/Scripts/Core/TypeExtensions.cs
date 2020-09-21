@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace TheIslands.Core {
     public static class TypeExtensions {

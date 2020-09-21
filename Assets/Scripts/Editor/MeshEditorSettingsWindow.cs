@@ -3,11 +3,11 @@
 namespace TheIslands.Editor {
     public class MeshEditorSettingsWindow : EditorWindow {
         private const string Title = "Field Editor Settings";
-        private FieldEditor _editor;
+        private FieldEditorTool.FieldEditorTool _editor;
         
         public static MeshEditorSettingsWindow Get() => GetWindow<MeshEditorSettingsWindow>(true, Title, false);
 
-        public static MeshEditorSettingsWindow Get(FieldEditor editor) {
+        public static MeshEditorSettingsWindow Get(FieldEditorTool.FieldEditorTool editor) {
             var window = Get();
             window._editor = editor;
             return window;

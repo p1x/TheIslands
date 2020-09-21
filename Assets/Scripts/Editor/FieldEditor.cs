@@ -31,7 +31,7 @@ namespace TheIslands.Editor {
             var evt = Event.current;
             if (target is MeshGenerator meshGenerator && meshGenerator.field is IScalarField field) {
                 if (evt.type == EventType.Repaint)
-                    FieldRenderer.Render(field, meshGenerator.size);
+                    FieldRenderer.Render(field, meshGenerator.size, meshGenerator.transform.localToWorldMatrix);
 
                 //EditorGUI.BeginChangeCheck();
 

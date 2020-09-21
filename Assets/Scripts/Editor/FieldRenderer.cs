@@ -42,7 +42,7 @@ namespace TheIslands.Editor {
             _gradient.SetKeys(colorKey, alphaKey);
         }
 
-        public void Render(IScalarField field, Vector3 size) {
+        public void Render(IScalarField field, Vector3 size, Matrix4x4 transformation) {
             if (_fieldSamplingRate < MinSamplingRate)
                 return;
 
@@ -58,6 +58,7 @@ namespace TheIslands.Editor {
 
             Material.Value.SetPass(0);
             GL.PushMatrix();
+            GL.MultMatrix(transformation);
             GL.Begin(GL.QUADS);
             GL.Color(Color.black);
 

@@ -86,14 +86,9 @@ namespace TheIslands.Editor {
             GL.PopMatrix();
         }
 
-        [SuppressMessage("ReSharper", "Unity.PreferAddressByIdToGraphicsParams")]
         private static Material GetMaterial() {
             var shader   = Shader.Find("Editor/FieldShader");
             var material = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
-            material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            material.SetInt("_Cull",     (int)UnityEngine.Rendering.CullMode.Off);
-            material.SetInt("_ZWrite",   0);
             return material;
         }
 

@@ -270,7 +270,7 @@ MonoBehaviour:
         _maxValue: 1
         _a: 3.15
         _b: 3.15
-        _center: {x: 6.22007, y: 0, z: 7.7082157}
+        _center: {x: 5.744278, y: 0, z: 6.80295}
 --- !u!33 &953878612
 MeshFilter:
   m_ObjectHideFlags: 0

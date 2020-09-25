@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f2de4977cc11844975817e80398b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 10, y: 5.85, z: 10}
+  size: {x: 10, y: 14.35, z: 10}
   Field:
     id: 0
   references:

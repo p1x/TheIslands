@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace TheIslands.Core
-{
+namespace TheIslands.Core {
     public readonly struct Size3 {
         private readonly Vector3 _vector;
 

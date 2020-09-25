@@ -4,13 +4,14 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Core",
-        "Editor"
+        "Editor",
+        "Procedural"
     ],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll"

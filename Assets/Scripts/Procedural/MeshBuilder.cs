@@ -54,8 +54,6 @@ namespace TheIslands.Procedural {
                 vertexCount = count,
                 bounds = _bounds,
             }, MeshSource.UpdateFlags);
-
-            Debug.Log(_triangleCount);
         }
     }
 }

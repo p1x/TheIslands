@@ -21,11 +21,13 @@
             <e p="CompositeField.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
             <e p="IMeshBuilder.cs" t="Include" />
+            <e p="Edge.cs" t="Include" />
             <e p="IScalarField.cs" t="Include" />
             <e p="ScalarField.cs" t="Include" />
             <e p="Size3.cs" t="Include" />
             <e p="Size3Int.cs" t="Include" />
             <e p="SphereField.cs" t="Include" />
+            <e p="Triangle.cs" t="Include" />
             <e p="TypeExtensions.cs" t="Include" />
             <e p="TypeUtility.cs" t="Include" />
             <e p="Utils.cs" t="Include" />

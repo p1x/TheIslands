@@ -23,6 +23,7 @@
             <e p="IMeshBuilder.cs" t="Include" />
             <e p="Edge.cs" t="Include" />
             <e p="IScalarField.cs" t="Include" />
+            <e p="MarchingCubes.cs" t="Include" />
             <e p="ScalarField.cs" t="Include" />
             <e p="Size3.cs" t="Include" />
             <e p="Size3Int.cs" t="Include" />

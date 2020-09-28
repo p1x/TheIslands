@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TheIslands.Core;
 using UnityEngine;
@@ -11,11 +12,16 @@ namespace TheIslands.Tests.EditMode {
         /// <param name="triangles">Triangles</param>
         /// <param name="boundary">Boundary represented by ordered points.</param>
         /// <returns><value>true</value> - if no holes found, otherwise - <value>false</value></returns>
-        public static bool SurfaceHasNoHoles(IEnumerable<Triangle> triangles, IEnumerable<Vector3> boundary) {
+        [Obsolete("Do not use until fixed")] public static bool SurfaceHasNoHoles(IEnumerable<Triangle> triangles, IEnumerable<Vector3> boundary) {
             // To simplify solution and remove edge cases (i.e. boundary-triangle edges)
-            // we construct additional triangles and form supposedly closed mesh
+            // we construct additional triangles and form supposedly closed mesh.
 
-            var outlineTriangles = boundary.Triangulate();
+            // We need an additional point to not overlap with existed triangles and avoid false-positives.
+            // Bug: this fixes the issue in most cases, but not all of them
+            var externalPoint = new Vector3(-1000, -1000, -1000);   
+            var boundaryList = boundary.ToList();
+            var outlineTriangles = boundaryList.Append(boundaryList[0]).Prepend(externalPoint).Triangulate();
+
             var allTriangles = triangles.Concat(outlineTriangles).ToList();
 
             return IsTrianglesFormClosedMesh(allTriangles);
@@ -52,6 +58,47 @@ namespace TheIslands.Tests.EditMode {
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Check if triangles completely fill boundary polygon.
+        /// </summary>
+        /// <param name="triangles">List of triangles to check</param>
+        /// <param name="boundary">List of boundary edges</param>
+        public static bool IsTrianglesFillBoundary(IList<Triangle> triangles, IEnumerable<Vector3> boundary) {
+            var boundaryEdges = boundary.PairwiseCycle().Select(x => new Edge(x.Item1, x.Item2)).ToList();
+            return IsTrianglesFillBoundary(triangles, boundaryEdges);
+        }
+
+        /// <summary>
+        /// Check if triangles completely fill boundary polygon.
+        /// </summary>
+        /// <param name="triangles">List of triangles to check</param>
+        /// <param name="boundary">List of boundary edges</param>
+        public static bool IsTrianglesFillBoundary(IList<Triangle> triangles, IList<Edge> boundary) {
+            // Triangles completely fill polygon if all edges are shared exactly by 2 triangles or by a triangle and a boundary edge
+            
+            int CountSharedEdges(Edge edge, in Triangle triangle) => triangle.GetEdges().Count(e => e == edge);
+            
+            // Check if all triangle edges are shared with exactly one other triangle or boundary 
+            foreach (var triangle in triangles)
+            foreach (var edge in triangle.GetEdges()) {
+                // Count shared edges between triangles
+                var triangleSharedCount =
+                    triangles
+                        .Where(x => x != triangle)
+                        .Sum(t => CountSharedEdges(edge, t));
+                
+                // Count shared edges between triangle and boundary
+                var boundarySharedCount = boundary.Sum(t => edge == t ? 1 : 0);
+
+                // It should be exactly one
+                if (triangleSharedCount + boundarySharedCount != 1)
+                    return false;
+            }
+
+            // Check if only one triangle shares an edge with each boundary edge.
+            return boundary.All(b => triangles.Sum(t => CountSharedEdges(b, t)) == 1);
         }
     }
 }

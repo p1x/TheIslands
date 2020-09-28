@@ -14,21 +14,21 @@ namespace TheIslands.Tests.EditMode {
 
             marchingCubes.Polygonize(testField, 0.5f, new Size3(1, 1, 1), new Size3Int(1,1,1),  meshBuilder);
 
-            var plane = new Plane(Vector3.up, 0.5f);
+            var plane = new Plane(Vector3.up, new Vector3(0, 0.5f, 0));
 
+            // Simple and fast asserts
             AssertInPlane(meshBuilder.Triangles, plane);
             AssertContainedInCube(meshBuilder.Triangles);
             AssertArea(meshBuilder.Triangles, 1f);
-            
+
             Assert.IsTrue(
-                TestGeometryUtility.SurfaceHasNoHoles(meshBuilder.Triangles, new[] {
+                TestGeometryUtility.IsTrianglesFillBoundary(meshBuilder.Triangles, new[] {
                     new Vector3(0, 0.5f, 0),
                     new Vector3(0, 0.5f, 1),
                     new Vector3(1, 0.5f, 1),
                     new Vector3(1, 0.5f, 0),
                 })
             );
-            
         }
 
         private static void AssertInPlane(IEnumerable<Triangle> triangles, Plane plane) {
@@ -43,18 +43,18 @@ namespace TheIslands.Tests.EditMode {
         }
 
         private static void AssertArea(IEnumerable<Triangle> triangles, float area) {
-            float GetArea(Triangle t) => Vector3.Cross(t.P0 - t.P1, t.P0 - t.P1).magnitude * 0.5f;
+            float GetArea(Triangle t) => Vector3.Cross(t.P0 - t.P1, t.P0 - t.P2).magnitude * 0.5f;
             Assert.AreEqual(area, triangles.Sum(GetArea));
         }
 
         private static void AssertContainedInCube(IEnumerable<Triangle> triangles) {
             void AssertVectorInCube(Vector3 v) {
-                Assert.GreaterOrEqual(0, v.x);
-                Assert.GreaterOrEqual(0, v.y);
-                Assert.GreaterOrEqual(0, v.z);
-                Assert.LessOrEqual(1, v.x);
-                Assert.LessOrEqual(1, v.y);
-                Assert.LessOrEqual(1, v.z);
+                Assert.GreaterOrEqual(v.x, 0);
+                Assert.GreaterOrEqual(v.y, 0);
+                Assert.GreaterOrEqual(v.z, 0);
+                Assert.LessOrEqual(v.x, 1);
+                Assert.LessOrEqual(v.y, 1);
+                Assert.LessOrEqual(v.z, 1);
             }
             void AssertTriangleInCube(Triangle t) {
                 AssertVectorInCube(t.P0);

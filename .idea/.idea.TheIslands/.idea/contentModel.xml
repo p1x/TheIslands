@@ -64,9 +64,13 @@
           <e p="EditMode" t="Include">
             <e p="EditMode.asmdef" t="Include" />
             <e p="FieldsTests.cs" t="Include" />
+            <e p="MarchingCubesTests.cs" t="Include" />
             <e p="MeshSourceTests.cs" t="Include" />
             <e p="Size3IntTests.cs" t="Include" />
             <e p="Size3Tests.cs" t="Include" />
+            <e p="TestField.cs" t="Include" />
+            <e p="TestGeometryUtility.cs" t="Include" />
+            <e p="TestMeshBuilder.cs" t="Include" />
             <e p="VectorExtensionTests.cs" t="Include" />
           </e>
         </e>

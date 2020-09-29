@@ -4,22 +4,35 @@ using UnityEngine;
 
 namespace TheIslands.Tests.EditMode {
     public class TestField : IScalarField {
-        private readonly (Vector3 position, float value)[] _data = {
-            (new Vector3(0, 0, 0), 1f),
-            (new Vector3(0, 0, 1), 1f),
-            (new Vector3(1, 0, 1), 1f),
-            (new Vector3(1, 0, 0), 1f),
-            (new Vector3(0, 1, 0), 0f),
-            (new Vector3(0, 1, 1), 0f),
-            (new Vector3(1, 1, 1), 0f),
-            (new Vector3(1, 1, 0), 0f),
+        private static readonly Vector3[] Corners = {
+            new Vector3(0, 0, 0),
+            new Vector3(0, 0, 1),
+            new Vector3(1, 0, 1),
+            new Vector3(1, 0, 0),
+            new Vector3(0, 1, 0),
+            new Vector3(0, 1, 1),
+            new Vector3(1, 1, 1),
+            new Vector3(1, 1, 0),
         };
         
+        private readonly float[] _data;
+
+        public TestField(Plane plane) {
+            _data = new float[8];
+
+            for (var i = 0; i < 8; i++) {
+                var cornerPoint = Corners[i];
+                var distance = plane.GetDistanceToPoint(cornerPoint);
+                var value = Mathf.Sign(distance);
+                _data[i] = value;
+            }
+        }
+        
         public float GetValue(Vector3 position) {
-            var (_, value) = _data
-                .Select(x => (distance: Vector3.Distance(x.position, position), x.value))
-                .Aggregate((a, x) => x.distance <= a.distance ? x : a);
-            return value;
+            var (_, index) = Corners
+                .Select((c, i) => (c, i))
+                .WithMin(t => Vector3.Distance(t.c, position));
+            return _data[index];
         }
     }
 }

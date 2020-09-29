@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TheIslands.Core {
     public static class EnumerableExtensions {
@@ -30,6 +32,16 @@ namespace TheIslands.Core {
 
                 yield return (first, theFirst);
             }
+        }
+
+        public static TSource WithMin<TSource, TComparable>(this IEnumerable<TSource> enumerable, Func<TSource, TComparable> comparerSelector) {
+            var comparer = Comparer<TComparable>.Default;
+            return enumerable.Aggregate((acc, x) => comparer.Compare(comparerSelector(acc), comparerSelector(x)) <= 0 ? acc : x);
+        }
+        
+        public static TSource WithMax<TSource, TComparable>(this IEnumerable<TSource> enumerable, Func<TSource, TComparable> comparerSelector) {
+            var comparer = Comparer<TComparable>.Default;
+            return enumerable.Aggregate((acc, x) => comparer.Compare(comparerSelector(acc), comparerSelector(x)) >= 0 ? acc : x);
         }
     }
 }

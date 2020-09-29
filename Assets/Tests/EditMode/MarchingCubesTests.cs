@@ -7,28 +7,59 @@ using UnityEngine;
 namespace TheIslands.Tests.EditMode {
     public class MarchingCubesTests {
         [Test]
-        public void PolygonizeFlatField() {
+        public void PolygonizeYZFlatField_ProduceSquareSurface() =>
+            TestPolygonizeFlatField(new Plane(Vector3.right, Vector3.one / 2), new[] {
+                new Vector3(0.5f, 0, 0),
+                new Vector3(0.5f, 0, 1),
+                new Vector3(0.5f, 1, 1),
+                new Vector3(0.5f, 1, 0),
+            }, 1f);
+
+        [Test]
+        public void PolygonizeXZFlatField_ProduceSquareSurface() =>
+            TestPolygonizeFlatField(new Plane(Vector3.up, Vector3.one / 2), new[] {
+                new Vector3(0, 0.5f, 0),
+                new Vector3(0, 0.5f, 1),
+                new Vector3(1, 0.5f, 1),
+                new Vector3(1, 0.5f, 0),
+            }, 1f);
+
+        [Test]
+        public void PolygonizeXYFlatField_ProduceSquareSurface() =>
+            TestPolygonizeFlatField(new Plane(Vector3.forward, Vector3.one / 2), new[] {
+                new Vector3(0, 0, 0.5f),
+                new Vector3(0, 1, 0.5f),
+                new Vector3(1, 1, 0.5f),
+                new Vector3(1, 0, 0.5f),
+            }, 1f);
+
+        [Test]
+        public void PolygonizeCornerFlatField_ProduceTriangleSurface() {
+            void Test(IReadOnlyList<Vector3> v) => TestPolygonizeFlatField(new Plane(v[0], v[1], v[2]), v, 0.216506347f);
+
+            Test(new[] { new Vector3(0.5f, 0, 0), new Vector3(0, 0.5f, 0), new Vector3(0, 0, 0.5f) });
+            Test(new[] { new Vector3(0, 0, 0.5f), new Vector3(0, 0.5f, 1), new Vector3(0.5f, 0, 1) });
+            Test(new[] { new Vector3(0.5f, 0, 1), new Vector3(1, 0.5f, 1), new Vector3(1, 0, 0.5f) });
+            Test(new[] { new Vector3(1, 0, 0.5f), new Vector3(1, 0.5f, 0), new Vector3(0.5f, 0, 0) });
+
+            Test(new[] { new Vector3(0, 1, 0.5f), new Vector3(0, 0.5f, 0), new Vector3(0.5f, 1, 0) });
+            Test(new[] { new Vector3(0.5f, 1, 1), new Vector3(0, 0.5f, 1), new Vector3(0, 1, 0.5f) });
+            Test(new[] { new Vector3(1, 1, 0.5f), new Vector3(1, 0.5f, 1), new Vector3(0.5f, 1, 1) });
+            Test(new[] { new Vector3(0.5f, 1, 0), new Vector3(1, 0.5f, 0), new Vector3(1, 1, 0.5f) });
+        }
+
+        private static void TestPolygonizeFlatField(Plane isoPlane, IEnumerable<Vector3> boundary, float area) {
             var marchingCubes = new MarchingCubes();
-            var testField = new TestField();
+            var testField = new TestField(isoPlane);
             var meshBuilder = new TestMeshBuilder();
 
-            marchingCubes.Polygonize(testField, 0.5f, new Size3(1, 1, 1), new Size3Int(1,1,1),  meshBuilder);
-
-            var plane = new Plane(Vector3.up, new Vector3(0, 0.5f, 0));
+            marchingCubes.Polygonize(testField, 0.5f, new Size3(1, 1, 1), new Size3Int(1, 1, 1), meshBuilder);
 
             // Simple and fast asserts
-            AssertInPlane(meshBuilder.Triangles, plane);
+            AssertInPlane(meshBuilder.Triangles, isoPlane);
             AssertContainedInCube(meshBuilder.Triangles);
-            AssertArea(meshBuilder.Triangles, 1f);
-
-            Assert.IsTrue(
-                TestGeometryUtility.IsTrianglesFillBoundary(meshBuilder.Triangles, new[] {
-                    new Vector3(0, 0.5f, 0),
-                    new Vector3(0, 0.5f, 1),
-                    new Vector3(1, 0.5f, 1),
-                    new Vector3(1, 0.5f, 0),
-                })
-            );
+            AssertArea(meshBuilder.Triangles, area);
+            Assert.IsTrue(TestGeometryUtility.IsTrianglesFillBoundary(meshBuilder.Triangles, boundary));
         }
 
         private static void AssertInPlane(IEnumerable<Triangle> triangles, Plane plane) {

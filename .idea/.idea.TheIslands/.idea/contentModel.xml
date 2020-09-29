@@ -20,9 +20,9 @@
           <e p="Core" t="Include">
             <e p="CompositeField.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
+            <e p="Edge.cs" t="Include" />
             <e p="EnumerableExtensions.cs" t="Include" />
             <e p="IMeshBuilder.cs" t="Include" />
-            <e p="Edge.cs" t="Include" />
             <e p="IScalarField.cs" t="Include" />
             <e p="MarchingCubes.cs" t="Include" />
             <e p="ScalarField.cs" t="Include" />

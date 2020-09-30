@@ -9,7 +9,7 @@ namespace TheIslands.Procedural {
 
         private void OnEnable() {
             _meshSource?.Dispose();
-            _meshSource = new MeshSource(12 * 3);
+            _meshSource = new MeshSource(1024 * 3);
 
             if (!TryGetComponent(out MeshFilter meshFilter))
                 meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -32,24 +32,8 @@ namespace TheIslands.Procedural {
                 return;
 
             using (var meshBuilder = _meshSource.GetBuilder()) {
-                var s = size.ToSize(); // todo: add size editors and change field type to Size3Int
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(s.X, 0, 0), new Vector3(s.X, 0, s.Z));
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(s.X, 0, s.Z), new Vector3(0, 0, s.Z));
-
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(0, s.Y, 0), new Vector3(s.X, s.Y, 0));
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(s.X, s.Y, 0), new Vector3(s.X, 0, 0));
-                
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(0, s.Y, s.Z), new Vector3(0, s.Y, 0));
-                meshBuilder.AddTriangle(new Vector3(0, 0, 0), new Vector3(0, 0, s.Z), new Vector3(0, s.Y, s.Z));
-                
-                meshBuilder.AddTriangle(new Vector3(0, s.Y, 0), new Vector3(s.X, s.Y, s.Z), new Vector3(s.X, s.Y, 0));
-                meshBuilder.AddTriangle(new Vector3(0, s.Y, 0), new Vector3(0, s.Y, s.Z), new Vector3(s.X, s.Y, s.Z));
-                
-                meshBuilder.AddTriangle(new Vector3(0, 0, s.Z), new Vector3(s.X, s.Y, s.Z), new Vector3(0, s.Y, s.Z));
-                meshBuilder.AddTriangle(new Vector3(0, 0, s.Z), new Vector3(s.X, 0, s.Z), new Vector3(s.X, s.Y, s.Z));
-                
-                meshBuilder.AddTriangle(new Vector3(s.X, 0, 0), new Vector3(s.X, s.Y, 0), new Vector3(s.X, s.Y, s.Z));
-                meshBuilder.AddTriangle(new Vector3(s.X, 0, 0), new Vector3(s.X, s.Y, s.Z), new Vector3(s.X, 0, s.Z));
+                var marchingCubes = new MarchingCubes();
+                marchingCubes.Polygonize(Field, 0.5f, new Size3(Vector3.one), size.ToSize(), meshBuilder);
             }
         }
 

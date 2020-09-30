@@ -9,7 +9,7 @@ namespace TheIslands.Procedural {
 
         private void OnEnable() {
             _meshSource?.Dispose();
-            _meshSource = new MeshSource(1024 * 3);
+            _meshSource = new MeshSource(8192 * 3);
 
             if (!TryGetComponent(out MeshFilter meshFilter))
                 meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -32,6 +32,9 @@ namespace TheIslands.Procedural {
                 return;
 
             using (var meshBuilder = _meshSource.GetBuilder()) {
+                var actualSize = new Vector3(size.x * step.x, size.y * step.y, size.z * step.z);
+                meshBuilder.Bounds = new Bounds(actualSize / 2, actualSize);
+                
                 var marchingCubes = new MarchingCubes();
                 marchingCubes.Polygonize(Field, 0.5f, step.ToSize(), size.ToSize(), meshBuilder);
             }

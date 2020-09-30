@@ -7,45 +7,54 @@ namespace TheIslands.Core {
             var positions = new Vector3[8];
             var values = new float[8];
 
-            for (var i = 0; i < size.X; i++) 
-            for (var j = 0; j < size.Y; j++) {
-                // Initial values, will go into 0, 3, 4, 7 at k == 0
-                positions[1] = new Vector3((i + 0) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
-                positions[2] = new Vector3((i + 1) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
-                positions[5] = new Vector3((i + 0) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
-                positions[6] = new Vector3((i + 1) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
-                
-                values[1] = field.GetValue(positions[1]);
-                values[2] = field.GetValue(positions[2]);
-                values[5] = field.GetValue(positions[5]);
-                values[6] = field.GetValue(positions[6]);
-                
-                for (var k = 0; k < size.Z; k++) {
-                    positions[0] = positions[1];
-                    positions[3] = positions[2];
-                    positions[4] = positions[5];
-                    positions[7] = positions[6];
-
-                    positions[1] = new Vector3(positions[1].x, positions[1].y, positions[1].z + step.Z);
-                    positions[2] = new Vector3(positions[2].x, positions[2].y, positions[2].z + step.Z);
-                    positions[5] = new Vector3(positions[5].x, positions[5].y, positions[5].z + step.Z);
-                    positions[6] = new Vector3(positions[6].x, positions[6].y, positions[6].z + step.Z);
-
-                    Profiler.BeginSample("GetValue");
-
-                    values[0] = values[1];
-                    values[3] = values[2];
-                    values[4] = values[5];
-                    values[7] = values[6];
-
-                    values[1] = field.GetValue(positions[1]);
-                    values[2] = field.GetValue(positions[2]);
-                    values[5] = field.GetValue(positions[5]);
-                    values[6] = field.GetValue(positions[6]);
+            // Cache values along z axis
+            var prevRowX0 = new float[size.Z + 1];
+            var prevRowX1 = new float[size.Z + 1];
+            
+            for (var i = 0; i < size.X; i++) {
+                for (var k = 0; k < size.Z + 1; k++) {
+                    prevRowX0[k] = field.GetValue(new Vector3((i + 0) * step.X, (0 + 0) * step.Y, (k + 0) * step.Z));
+                    prevRowX1[k] = field.GetValue(new Vector3((i + 1) * step.X, (0 + 0) * step.Y, (k + 0) * step.Z));
+                }
+                for (var j = 0; j < size.Y; j++) {
+                    // Initial values, will go into 0, 3, 4, 7 at k == 0
+                    positions[1] = new Vector3((i + 0) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
+                    positions[2] = new Vector3((i + 1) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
+                    positions[5] = new Vector3((i + 0) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
+                    positions[6] = new Vector3((i + 1) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
                     
-                    Profiler.EndSample();
+                    values[1] = prevRowX0[0];
+                    values[2] = prevRowX1[0];
+                    values[5] = prevRowX0[0] = field.GetValue(positions[5]);
+                    values[6] = prevRowX1[0] = field.GetValue(positions[6]);
+                    
+                    for (var k = 0; k < size.Z; k++) {
+                        positions[0] = positions[1];
+                        positions[3] = positions[2];
+                        positions[4] = positions[5];
+                        positions[7] = positions[6];
 
-                    PolygonizeCell(values, positions, isoValue, builder);
+                        positions[1] = new Vector3(positions[1].x, positions[1].y, positions[1].z + step.Z);
+                        positions[2] = new Vector3(positions[2].x, positions[2].y, positions[2].z + step.Z);
+                        positions[5] = new Vector3(positions[5].x, positions[5].y, positions[5].z + step.Z);
+                        positions[6] = new Vector3(positions[6].x, positions[6].y, positions[6].z + step.Z);
+
+                        Profiler.BeginSample("GetValue");
+
+                        values[0] = values[1];
+                        values[3] = values[2];
+                        values[4] = values[5];
+                        values[7] = values[6];
+
+                        values[1] = prevRowX0[k + 1];
+                        values[2] = prevRowX1[k + 1];
+                        values[5] = prevRowX0[k + 1] = field.GetValue(positions[5]);
+                        values[6] = prevRowX1[k + 1] = field.GetValue(positions[6]);
+                        
+                        Profiler.EndSample();
+
+                        PolygonizeCell(values, positions, isoValue, builder);
+                    }
                 }
             }
         }

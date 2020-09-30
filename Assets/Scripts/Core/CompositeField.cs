@@ -19,8 +19,8 @@ namespace TheIslands.Core {
              */
             
             var x0 = 0f;
-            for (var i = 0; i < Items.Count; i++) {
-                var x1 = Items[i].GetValue(position);
+            for (var i = 0; i < _items.Count; i++) {
+                var x1 = _items[i].GetValue(position);
                 x0 = (x0 + x1) / (1 + x0 * x1);
             }
             return x0;

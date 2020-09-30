@@ -19,7 +19,7 @@ namespace TheIslands.Core {
 
         public SphereField() => UpdateCache();
 
-        public override float GetValue(Vector3 position) => _b / (_a + Vector3.Distance(Center, position));
+        public override float GetValue(Vector3 position) => _b / (_a + Vector3.Distance(_center, position));
 
         private void UpdateCache() {
             _a = _halfValueRadius / (2 * _maxValue - 1);

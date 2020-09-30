@@ -1,6 +1,7 @@
 ﻿using System;
 using TheIslands.Core;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,38 +13,38 @@ namespace TheIslands.Procedural {
         private int _triangleCount;
         private NativeArray<Vertex> _vertices;
         private NativeArray<uint> _indices;
+        private unsafe void* _verticesPtr;
+        private unsafe void* _indicesPtr;
 
-        private Bounds _bounds;
-        
-        public MeshBuilder(int maxTriangleCount, Mesh mesh, NativeArray<Vertex> vertices, NativeArray<uint> indices) {
+        public Bounds Bounds { get; set; }
+
+        public unsafe MeshBuilder(int maxTriangleCount, Mesh mesh, NativeArray<Vertex> vertices, NativeArray<uint> indices) {
             _maxTriangleCount = maxTriangleCount;
             _mesh             = mesh;
             _vertices         = vertices;
             _indices          = indices;
-            _bounds           = new Bounds(); 
+            Bounds           = new Bounds(); 
+            
+            _verticesPtr = _vertices.GetUnsafePtr();
+            _indicesPtr = _indices.GetUnsafePtr();
         }
 
         public void AddTriangle(Triangle triangle) => AddTriangle(triangle.P0, triangle.P1, triangle.P2);
-        public void AddTriangle(Vector3 p0, Vector3 p1, Vector3 p2) {
+        public unsafe void AddTriangle(Vector3 p0, Vector3 p1, Vector3 p2) {
             if (_triangleCount >= _maxTriangleCount)
                 return;
 
-            var normal = Vector3.Cross(p1-p0, p2-p1).normalized;
+            var normal = Vector3.Cross(p1 - p0, p2 - p1).normalized;
 
-            _vertices[_triangleCount * 3 + 0] = new Vertex(p0, normal);
-            _vertices[_triangleCount * 3 + 1] = new Vertex(p1, normal);
-            _vertices[_triangleCount * 3 + 2] = new Vertex(p2, normal);
+            UnsafeUtility.WriteArrayElement(_verticesPtr, _triangleCount * 3 + 0, new Vertex(p0, normal));
+            UnsafeUtility.WriteArrayElement(_verticesPtr, _triangleCount * 3 + 1, new Vertex(p1, normal));
+            UnsafeUtility.WriteArrayElement(_verticesPtr, _triangleCount * 3 + 2, new Vertex(p2, normal));
 
-            _indices[_triangleCount * 3 + 0] = (uint)_triangleCount * 3 + 0;
-            _indices[_triangleCount * 3 + 1] = (uint)_triangleCount * 3 + 1;
-            _indices[_triangleCount * 3 + 2] = (uint)_triangleCount * 3 + 2;
+            UnsafeUtility.WriteArrayElement(_indicesPtr, _triangleCount * 3 + 0, (uint)_triangleCount * 3 + 0);
+            UnsafeUtility.WriteArrayElement(_indicesPtr, _triangleCount * 3 + 1, (uint)_triangleCount * 3 + 1);
+            UnsafeUtility.WriteArrayElement(_indicesPtr, _triangleCount * 3 + 2, (uint)_triangleCount * 3 + 2);
 
             _triangleCount += 1;
-            
-            // todo: probably should take bounds from outside
-            _bounds.Encapsulate(p0);
-            _bounds.Encapsulate(p1);
-            _bounds.Encapsulate(p2);
         }
         
         public void Dispose() {
@@ -54,10 +55,10 @@ namespace TheIslands.Procedural {
 
             _mesh.SetSubMesh(0, new SubMeshDescriptor(0, count) {
                 vertexCount = count,
-                bounds = _bounds,
+                bounds = Bounds,
             }, MeshSource.UpdateFlags);
 
-            _mesh.bounds = _bounds;
+            _mesh.bounds = Bounds;
         }
     }
 }

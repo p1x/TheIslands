@@ -430,6 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 20, y: 20, z: 20}
+  step: {x: 1, y: 1, z: 1}
   Field:
     id: 0
   references:
@@ -449,15 +450,15 @@ MonoBehaviour:
         _maxValue: 1
         _a: 1.4133015
         _b: 1.4133015
-        _center: {x: 14.791075, y: 6.5746307, z: 10.90896}
+        _center: {x: 13.879891, y: 6.9565945, z: 12.529895}
     00000002:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _halfValueRadius: 0.9239974
+        _halfValueRadius: 1.0554967
         _maxValue: 1
-        _a: 0.9239974
-        _b: 0.9239974
-        _center: {x: 5.027139, y: 5, z: 3.4845514}
+        _a: 1.0554967
+        _b: 1.0554967
+        _center: {x: 5.7473755, y: 6.3167324, z: 3.4131384}
     00000003:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
@@ -473,7 +474,7 @@ MonoBehaviour:
         _maxValue: 1
         _a: 1.1192961
         _b: 1.1192961
-        _center: {x: 5.9297457, y: 6.6792955, z: 10.7432575}
+        _center: {x: 6.1551733, y: 7.348937, z: 12.427808}
 --- !u!23 &953878613
 MeshRenderer:
   m_ObjectHideFlags: 0

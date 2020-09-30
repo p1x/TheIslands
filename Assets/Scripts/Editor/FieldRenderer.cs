@@ -19,6 +19,8 @@ namespace TheIslands.Editor {
         private Gradient _gradient;
 
         private float _fieldSamplingRate = 1f;
+        private bool _showField;
+
         public FieldRenderer() {
             _gradient = new Gradient();
             var colorKey = new GradientColorKey[5];
@@ -43,7 +45,7 @@ namespace TheIslands.Editor {
         }
 
         public void Render(IScalarField field, Vector3 size, Matrix4x4 transformation) {
-            if (_fieldSamplingRate < MinSamplingRate)
+            if (!ShowField || _fieldSamplingRate < MinSamplingRate)
                 return;
 
             var step = 1 / _fieldSamplingRate;
@@ -122,6 +124,11 @@ namespace TheIslands.Editor {
         public float FieldSamplingRate {
             get => _fieldSamplingRate;
             set => Utils.RiseAndSetIfChanged(ref _fieldSamplingRate, value, OnPropertyChanged);
+        }
+
+        public bool ShowField {
+            get => _showField;
+            set => Utils.RiseAndSetIfChanged(ref _showField, value, OnPropertyChanged);
         }
     }
 }

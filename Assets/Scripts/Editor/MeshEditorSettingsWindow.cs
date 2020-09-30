@@ -15,6 +15,7 @@ namespace TheIslands.Editor {
 
         private void OnGUI() {
             var r = _editor.FieldRenderer;
+            r.ShowField         = EditorGUILayout.Toggle("Show Field:", r.ShowField);
             r.FieldSamplingRate = EditorGUILayout.FloatField("Sampling Rate:", r.FieldSamplingRate);
             r.MinSize           = EditorGUILayout.Slider("Point Min Size:", r.MinSize,  0,          r.MaxSize);
             r.MaxSize           = EditorGUILayout.Slider("Point Max Size:", r.MaxSize,  r.MinSize,  1);

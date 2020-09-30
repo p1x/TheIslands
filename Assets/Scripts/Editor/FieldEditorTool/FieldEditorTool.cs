@@ -39,8 +39,10 @@ namespace TheIslands.Editor.FieldEditorTool {
                     if (FieldTools.TryGetValue(field.GetType(), out var fieldEditor))
                         fieldEditor.OnToolGUI(field);
 
-                    if (changeCheckScope.changed)
+                    if (changeCheckScope.changed) {
                         EditorUtility.SetDirty(target);
+                        meshGenerator.Generate();
+                    }
                 }
             }
         }

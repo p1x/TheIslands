@@ -33,12 +33,13 @@ namespace TheIslands.Procedural {
 
             using (var meshBuilder = _meshSource.GetBuilder()) {
                 var marchingCubes = new MarchingCubes();
-                marchingCubes.Polygonize(Field, 0.5f, new Size3(Vector3.one), size.ToSize(), meshBuilder);
+                marchingCubes.Polygonize(Field, 0.5f, step.ToSize(), size.ToSize(), meshBuilder);
             }
         }
 
-        public Vector3Int size = new Vector3Int(10, 10, 10);
-
+        public Vector3Int size = new Vector3Int(10, 10, 10); 
+        public Vector3 step = new Vector3(1, 1, 1);
+        
         [SerializeReference]
         public CompositeField Field = new CompositeField();
     }

@@ -11,13 +11,15 @@ namespace TheIslands.Editor {
         public override void OnInspectorGUI() {
             if (target is MeshGenerator meshGenerator && meshGenerator.Field is ScalarField scalarField) {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope()) {
-                    var meshGeneratorSize = EditorGUILayout.Vector3IntField("Size", meshGenerator.size).ToSize();
+                    var size = EditorGUILayout.Vector3IntField("Size", meshGenerator.size).ToSize();
+                    var step = EditorGUILayout.Vector3Field("Step", meshGenerator.step).ToSize();
                     
                     if (changeCheckScope.changed) {
                         meshGenerator.Generate();
                         
                         Undo.RecordObject(target, "Change Fields");
-                        meshGenerator.size = meshGeneratorSize;
+                        meshGenerator.size = size;
+                        meshGenerator.step = step;
                     }
                 }
 

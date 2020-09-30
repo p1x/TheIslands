@@ -1,83 +1,118 @@
 ﻿using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace TheIslands.Core {
     public class MarchingCubes {
         public void Polygonize(IScalarField field, float isoValue, Size3 step, Size3Int size, IMeshBuilder builder) {
             var positions = new Vector3[8];
             var values = new float[8];
+
             for (var i = 0; i < size.X; i++) 
-            for (var j = 0; j < size.Y; j++) 
-            for (var k = 0; k < size.Z; k++) {
-                positions[0] = new Vector3((i + 0) * step.X, (j + 0) * step.Y, (k + 0) * step.Z);
-                positions[1] = new Vector3((i + 0) * step.X, (j + 0) * step.Y, (k + 1) * step.Z);
-                positions[2] = new Vector3((i + 1) * step.X, (j + 0) * step.Y, (k + 1) * step.Z);
-                positions[3] = new Vector3((i + 1) * step.X, (j + 0) * step.Y, (k + 0) * step.Z);
-                positions[4] = new Vector3((i + 0) * step.X, (j + 1) * step.Y, (k + 0) * step.Z);
-                positions[5] = new Vector3((i + 0) * step.X, (j + 1) * step.Y, (k + 1) * step.Z);
-                positions[6] = new Vector3((i + 1) * step.X, (j + 1) * step.Y, (k + 1) * step.Z);
-                positions[7] = new Vector3((i + 1) * step.X, (j + 1) * step.Y, (k + 0) * step.Z);
+            for (var j = 0; j < size.Y; j++) {
+                // Initial values, will go into 0, 3, 4, 7 at k == 0
+                positions[1] = new Vector3((i + 0) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
+                positions[2] = new Vector3((i + 1) * step.X, (j + 0) * step.Y, (0 + 0) * step.Z);
+                positions[5] = new Vector3((i + 0) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
+                positions[6] = new Vector3((i + 1) * step.X, (j + 1) * step.Y, (0 + 0) * step.Z);
+                
+                values[1] = field.GetValue(positions[1]);
+                values[2] = field.GetValue(positions[2]);
+                values[5] = field.GetValue(positions[5]);
+                values[6] = field.GetValue(positions[6]);
+                
+                for (var k = 0; k < size.Z; k++) {
+                    positions[0] = positions[1];
+                    positions[3] = positions[2];
+                    positions[4] = positions[5];
+                    positions[7] = positions[6];
 
-                for (var l = 0; l < positions.Length; l++) {
-                    var position = positions[l];
-                    values[l] = field.GetValue(position);
+                    positions[1] = new Vector3(positions[1].x, positions[1].y, positions[1].z + step.Z);
+                    positions[2] = new Vector3(positions[2].x, positions[2].y, positions[2].z + step.Z);
+                    positions[5] = new Vector3(positions[5].x, positions[5].y, positions[5].z + step.Z);
+                    positions[6] = new Vector3(positions[6].x, positions[6].y, positions[6].z + step.Z);
+
+                    Profiler.BeginSample("GetValue");
+
+                    values[0] = values[1];
+                    values[3] = values[2];
+                    values[4] = values[5];
+                    values[7] = values[6];
+
+                    values[1] = field.GetValue(positions[1]);
+                    values[2] = field.GetValue(positions[2]);
+                    values[5] = field.GetValue(positions[5]);
+                    values[6] = field.GetValue(positions[6]);
+                    
+                    Profiler.EndSample();
+
+                    PolygonizeCell(values, positions, isoValue, builder);
                 }
-
-                PolygonizeCell(values, positions, isoValue, builder);
             }
         }
 
         public unsafe void PolygonizeCell(float[] values, Vector3[] positions, float isoLevel, IMeshBuilder builder) {
+            Profiler.BeginSample("cubeIndex");
+            
             // Determine the index into the edge table which
             // tells us which vertices are inside of the surface
-            var cubeindex = 0;
-            if (values[0] < isoLevel) cubeindex |= 1;
-            if (values[1] < isoLevel) cubeindex |= 2;
-            if (values[2] < isoLevel) cubeindex |= 4;
-            if (values[3] < isoLevel) cubeindex |= 8;
-            if (values[4] < isoLevel) cubeindex |= 16;
-            if (values[5] < isoLevel) cubeindex |= 32;
-            if (values[6] < isoLevel) cubeindex |= 64;
-            if (values[7] < isoLevel) cubeindex |= 128;
+            var cubeIndex = 0;
+            if (values[0] < isoLevel) cubeIndex |= 1;
+            if (values[1] < isoLevel) cubeIndex |= 2;
+            if (values[2] < isoLevel) cubeIndex |= 4;
+            if (values[3] < isoLevel) cubeIndex |= 8;
+            if (values[4] < isoLevel) cubeIndex |= 16;
+            if (values[5] < isoLevel) cubeIndex |= 32;
+            if (values[6] < isoLevel) cubeIndex |= 64;
+            if (values[7] < isoLevel) cubeIndex |= 128;
+            
+            Profiler.EndSample();
             
             // Cube is entirely in/out of the surface
-            if (EdgeTable[cubeindex] == 0)
+            if (EdgeTable[cubeIndex] == 0)
                 return;
 
+            Profiler.BeginSample("EdgeTable");
+            
             var vertices = stackalloc Vector3[12];
             
             // Find the vertices where the surface intersects the cube
-            if ((EdgeTable[cubeindex] & 1) > 0)
+            if ((EdgeTable[cubeIndex] & 1) > 0)
                 vertices[0] = Interpolate(isoLevel,positions[0],positions[1],values[0],values[1]);
-            if ((EdgeTable[cubeindex] & 2) > 0)
+            if ((EdgeTable[cubeIndex] & 2) > 0)
                 vertices[1] = Interpolate(isoLevel,positions[1],positions[2],values[1],values[2]);
-            if ((EdgeTable[cubeindex] & 4) > 0)
+            if ((EdgeTable[cubeIndex] & 4) > 0)
                 vertices[2] = Interpolate(isoLevel,positions[2],positions[3],values[2],values[3]);
-            if ((EdgeTable[cubeindex] & 8) > 0)
+            if ((EdgeTable[cubeIndex] & 8) > 0)
                 vertices[3] = Interpolate(isoLevel,positions[3],positions[0],values[3],values[0]);
-            if ((EdgeTable[cubeindex] & 16) > 0)
+            if ((EdgeTable[cubeIndex] & 16) > 0)
                 vertices[4] = Interpolate(isoLevel,positions[4],positions[5],values[4],values[5]);
-            if ((EdgeTable[cubeindex] & 32) > 0)
+            if ((EdgeTable[cubeIndex] & 32) > 0)
                 vertices[5] = Interpolate(isoLevel,positions[5],positions[6],values[5],values[6]);
-            if ((EdgeTable[cubeindex] & 64) > 0)
+            if ((EdgeTable[cubeIndex] & 64) > 0)
                 vertices[6] = Interpolate(isoLevel,positions[6],positions[7],values[6],values[7]);
-            if ((EdgeTable[cubeindex] & 128) > 0)
+            if ((EdgeTable[cubeIndex] & 128) > 0)
                 vertices[7] = Interpolate(isoLevel,positions[7],positions[4],values[7],values[4]);
-            if ((EdgeTable[cubeindex] & 256) > 0)
+            if ((EdgeTable[cubeIndex] & 256) > 0)
                 vertices[8] = Interpolate(isoLevel,positions[0],positions[4],values[0],values[4]);
-            if ((EdgeTable[cubeindex] & 512) > 0)
+            if ((EdgeTable[cubeIndex] & 512) > 0)
                 vertices[9] = Interpolate(isoLevel,positions[1],positions[5],values[1],values[5]);
-            if ((EdgeTable[cubeindex] & 1024) > 0)
+            if ((EdgeTable[cubeIndex] & 1024) > 0)
                 vertices[10] = Interpolate(isoLevel,positions[2],positions[6],values[2],values[6]);
-            if ((EdgeTable[cubeindex] & 2048) > 0)
+            if ((EdgeTable[cubeIndex] & 2048) > 0)
                 vertices[11] = Interpolate(isoLevel,positions[3],positions[7],values[3],values[7]);
             
+            Profiler.EndSample();
+            
+            Profiler.BeginSample("TriTable");
             /* Create the triangle */
-            for (var i = 0; TriTable[cubeindex][i] != -1; i += 3)
+            for (var i = 0; TriTable[cubeIndex][i] != -1; i += 3)
                 builder.AddTriangle(
-                    vertices[TriTable[cubeindex][i]],
-                    vertices[TriTable[cubeindex][i + 1]],
-                    vertices[TriTable[cubeindex][i + 2]]
+                    vertices[TriTable[cubeIndex][i]],
+                    vertices[TriTable[cubeIndex][i + 1]],
+                    vertices[TriTable[cubeIndex][i + 2]]
                 );
+            
+            Profiler.EndSample();
         }
 
         private static Vector3 Interpolate(float isoLevel, Vector3 p0, Vector3 p1, float v0, float v1) {

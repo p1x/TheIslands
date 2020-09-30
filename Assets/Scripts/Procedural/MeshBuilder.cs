@@ -28,9 +28,11 @@ namespace TheIslands.Procedural {
             if (_triangleCount >= _maxTriangleCount)
                 return;
 
-            _vertices[_triangleCount * 3 + 0] = new Vertex(p0, Vector3.one);
-            _vertices[_triangleCount * 3 + 1] = new Vertex(p1, Vector3.one);
-            _vertices[_triangleCount * 3 + 2] = new Vertex(p2, Vector3.one);
+            var normal = Vector3.Cross(p1-p0, p2-p1).normalized;
+
+            _vertices[_triangleCount * 3 + 0] = new Vertex(p0, normal);
+            _vertices[_triangleCount * 3 + 1] = new Vertex(p1, normal);
+            _vertices[_triangleCount * 3 + 2] = new Vertex(p2, normal);
 
             _indices[_triangleCount * 3 + 0] = (uint)_triangleCount * 3 + 0;
             _indices[_triangleCount * 3 + 1] = (uint)_triangleCount * 3 + 1;
@@ -54,6 +56,8 @@ namespace TheIslands.Procedural {
                 vertexCount = count,
                 bounds = _bounds,
             }, MeshSource.UpdateFlags);
+
+            _mesh.bounds = _bounds;
         }
     }
 }

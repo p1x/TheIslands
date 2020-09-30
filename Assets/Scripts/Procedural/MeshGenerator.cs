@@ -53,7 +53,7 @@ namespace TheIslands.Procedural {
             }
         }
 
-        public Vector3 size = new Vector3(10, 10, 10);
+        public Vector3Int size = new Vector3Int(10, 10, 10);
 
         [SerializeReference]
         public CompositeField Field = new CompositeField();

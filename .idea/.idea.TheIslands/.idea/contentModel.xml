@@ -21,10 +21,8 @@
             <e p="CompositeField.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
             <e p="Edge.cs" t="Include" />
-            <e p="EnumerableExtensions.cs" t="Include" />
             <e p="IMeshBuilder.cs" t="Include" />
             <e p="IScalarField.cs" t="Include" />
-            <e p="MarchingCubes.cs" t="Include" />
             <e p="ScalarField.cs" t="Include" />
             <e p="Size3.cs" t="Include" />
             <e p="Size3Int.cs" t="Include" />
@@ -65,13 +63,9 @@
           <e p="EditMode" t="Include">
             <e p="EditMode.asmdef" t="Include" />
             <e p="FieldsTests.cs" t="Include" />
-            <e p="MarchingCubesTests.cs" t="Include" />
             <e p="MeshSourceTests.cs" t="Include" />
             <e p="Size3IntTests.cs" t="Include" />
             <e p="Size3Tests.cs" t="Include" />
-            <e p="TestField.cs" t="Include" />
-            <e p="TestGeometryUtility.cs" t="Include" />
-            <e p="TestMeshBuilder.cs" t="Include" />
             <e p="VectorExtensionTests.cs" t="Include" />
           </e>
         </e>

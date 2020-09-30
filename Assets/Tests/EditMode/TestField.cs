@@ -23,7 +23,7 @@ namespace TheIslands.Tests.EditMode {
             for (var i = 0; i < 8; i++) {
                 var cornerPoint = Corners[i];
                 var distance = plane.GetDistanceToPoint(cornerPoint);
-                var value = Mathf.Sign(distance);
+                var value = (Mathf.Sign(distance) + 1) / 2;
                 _data[i] = value;
             }
         }

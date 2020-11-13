@@ -11,7 +11,9 @@ namespace TheIslands.Core {
         public List<ScalarField> Items => _items ?? (_items = new List<ScalarField>());
 
         public override float GetValue(Vector3 position) {
-
+            if (_items == null) // Empty and not initialized
+                return 0;
+            
             /*
              *  v1 + v2
              *  ----------- = vx 

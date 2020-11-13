@@ -4,47 +4,18 @@ using UnityEngine;
 
 namespace TheIslands.Tests.EditMode {
     public class FieldsTests {
-        /*
-         * we want something like 1/x, but with max value
-         * so we go for a/(x + b)
-         *  values:
-         *  x  y 
-         *  0  h
-         *  r  0.5
-         *
-         *  some math:
-         *  a / (b + x) = y
-         * 
-         *  a / (b + 0)  = h
-         *  a / (b + r)  = 0.5
-         *
-         *  a = h * b
-         *  h * b = 0.5 * b + 0.5 * r
-         *  (h - 0.5) * b = 0.5 * r
-         *  b = 0.5 * r / (h - 0.5)
-         *  b = r / (2 * h - 1)
-         *  a = h * r / (2 * h - 1)
-         *
-         *  h * b / (b + x) = y
-         *  h / (1 + x / b) = y
-         * 
-         *  h / (1 + x * (2 * h - 1) / r) = y
-         * 
-         *  for h = 10 and r = 10:
-         *  10 / (1 + x * 1.9) = y
-         *  
-         */
-        [TestCase(0f,  0f,  0f,  10f)]
-        [TestCase(5f,  0f,  0f,  0.95238f)]
+        // We use cubic interpolation between R-F and R+F distances, and max value of 1. 
+        [TestCase(0f,  0f,  0f,  1f)]
+        [TestCase(5f,  0f,  0f,  0.84375f)]
         [TestCase(10f, 0f,  0f,  0.5f)]
-        [TestCase(15f, 0f,  0f,  0.33898f)]
-        [TestCase(20f, 0f,  0f,  0.25641f)]
-        [TestCase(0f,  15f, 0f,  0.33898f)]
-        [TestCase(0f,  0f,  15f, 0.33898f)]
+        [TestCase(15f, 0f,  0f,  0.15625f)]
+        [TestCase(20f, 0f,  0f,  0.0f)]
+        [TestCase(0f,  15f, 0f,  0.15625f)]
+        [TestCase(0f,  0f,  15f, 0.15625f)]
         public void SphereFieldTests(float x, float y, float z, float expectedResult) {
-            var field = new SphereField();//ScriptableObject.CreateInstance<SphereField>();
-            field.MaxValue        = 10;
-            field.HalfValueRadius = 10;
+            var field = new SphereField();
+            field.Radius = 10;
+            field.Falloff = 10;
             field.Center          = Vector3.zero;
 
             var actualResult = field.GetValue(new Vector3(x, y, z));
@@ -52,14 +23,14 @@ namespace TheIslands.Tests.EditMode {
             Assert.AreEqual(expectedResult, actualResult, 0.00001);
         }
 
-        [TestCase(0f,  0f, 0f, 10f, 10f)]
-        [TestCase(10f, 0f, 0f, 5f,  0.25641f)]
+        [TestCase(0f,  0f, 0f, 10f, 1f)]
+        [TestCase(10f, 0f, 0f, 5f,  0.15625f)]
         [TestCase(10f, 0f, 0f, 10f, 0.5f)]
-        [TestCase(10f, 0f, 0f, 15f, 0.73170f)]
+        [TestCase(10f, 0f, 0f, 15f, 0.84375f)]
         public void CustomPropertiesSphereFieldTests(float x, float y, float z, float r, float expectedResult) {
-            var field = new SphereField();//ScriptableObject.CreateInstance<SphereField>();
-            field.MaxValue        = 10;
-            field.HalfValueRadius = r;
+            var field = new SphereField();
+            field.Radius = r;
+            field.Falloff = 10;
             field.Center          = new Vector3(x, y, z);
 
             var actualResult = field.GetValue(Vector3.zero);
@@ -67,19 +38,21 @@ namespace TheIslands.Tests.EditMode {
             Assert.AreEqual(expectedResult, actualResult, 0.00001);
         }
         
-        // Wolfram Language Code:
-        //   ReplaceAll[(10/(1 + Abs[x] 1.9) + 10/(1 + Abs[20 - x] 1.9))/(1 + (10/(1 + Abs[x] 1.9)) (10/(1 + Abs[20 - x] 1.9))), {x -> {0, 5, 10, 15, 20}}]
-        // Results:
-        //   {2.8777, 0.976205, 0.8, 0.976205, 2.8777}
-        [TestCase(0f,  0f, 0f, 2.877700f)]
-        [TestCase(5f,  0f, 0f, 0.97620f)]
+        /*
+         *  We use this to compose fields:
+         *  v1 + v2
+         *  ----------- = vx 
+         *  1 + v1 * v2
+         */
+        [TestCase(0f,  0f, 0f, 1f)]
+        [TestCase(5f,  0f, 0f, 0.88352f)]
         [TestCase(10f, 0f, 0f, 0.8f)]
-        [TestCase(15f, 0f, 0f, 0.976205f)]
-        [TestCase(20f, 0f, 0f, 2.877700f)]
+        [TestCase(15f, 0f, 0f, 0.88352f)]
+        [TestCase(20f, 0f, 0f, 1f)]
         public void TwoSphereCompositeFieldTests(float x, float y, float z, float expectedResult) {
             var field   = new CompositeField {
-                new SphereField { MaxValue = 10, HalfValueRadius = 10, Center = new Vector3(0,  0, 0) },
-                new SphereField { MaxValue = 10, HalfValueRadius = 10, Center = new Vector3(20, 0, 0) }
+                new SphereField { Radius = 10, Falloff = 10, Center = new Vector3(0,  0, 0) },
+                new SphereField { Radius = 10, Falloff = 10, Center = new Vector3(20, 0, 0) }
             };
 
             var actualResult = field.GetValue(new Vector3(x, y, z));

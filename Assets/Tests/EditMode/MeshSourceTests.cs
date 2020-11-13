@@ -24,22 +24,27 @@ namespace TheIslands.Tests.EditMode {
         [Test]
         public void BuildingWithExcessiveMaxTriangles_ProducesValidMesh() {
             using (var meshSource = new MeshSource(24)) {
-                using (var builder = meshSource.GetBuilder())
+                var bounds = new Bounds(new Vector3(0.5f, 0.5f, 0.5f), Vector3.one);
+                using (var builder = meshSource.GetBuilder()) {
+                    builder.Bounds = bounds; 
                     builder.AddTriangle(Vector3.zero, Vector3.forward, Vector3.one);
-
-                AssertValidMesh(meshSource.Mesh, 3, 3, new Bounds(new Vector3(0.5f, 0.5f, 0.5f), Vector3.one));
+                }
+                
+                AssertValidMesh(meshSource.Mesh, 3, 3, bounds);
             }
         }
 
         [Test]
         public void BuildingWithInsufficientMaxTriangles_ProducesValidMeshWithLimitedSize() {
             using (var meshSource = new MeshSource(1)) {
+                var bounds = new Bounds(new Vector3(0.5f, 0.5f, 0.5f), Vector3.one);
                 using (var builder = meshSource.GetBuilder()) {
+                    builder.Bounds = bounds;
                     builder.AddTriangle(Vector3.zero, Vector3.forward, Vector3.one);
                     builder.AddTriangle(Vector3.one, Vector3.forward + Vector3.one, Vector3.one + Vector3.one);
                 }
 
-                AssertValidMesh(meshSource.Mesh, 3, 3, new Bounds(new Vector3(0.5f, 0.5f, 0.5f), Vector3.one));
+                AssertValidMesh(meshSource.Mesh, 3, 3, bounds);
             }
         }
 

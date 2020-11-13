@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 4890085278179872738, guid: b32e58ba37c2d8649a2f0d93132ffe6b,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -182,6 +185,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -206,6 +210,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &93943739
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -275,6 +280,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -299,6 +305,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &98837953
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -429,8 +436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f2de4977cc11844975817e80398b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 20, y: 20, z: 20}
+  size: {x: 40, y: 40, z: 40}
   step: {x: 1, y: 1, z: 1}
+  isoLevel: 0.5
   Field:
     id: 0
   references:
@@ -446,35 +454,27 @@ MonoBehaviour:
     00000001:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _halfValueRadius: 1.4133015
-        _maxValue: 1
-        _a: 1.4133015
-        _b: 1.4133015
-        _center: {x: 13.879891, y: 6.9565945, z: 12.529895}
+        _center: {x: 27.315731, y: 7.6119976, z: 25.851664}
+        _radius: 7.49
+        _falloff: 4.22888
     00000002:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _halfValueRadius: 1.0554967
-        _maxValue: 1
-        _a: 1.0554967
-        _b: 1.0554967
-        _center: {x: 5.7473755, y: 6.3167324, z: 3.4131384}
+        _center: {x: 11.816086, y: 6.758732, z: 12.458849}
+        _radius: 6.537099
+        _falloff: 5.0768538
     00000003:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _halfValueRadius: 0.6064291
-        _maxValue: 1
-        _a: 0.6064291
-        _b: 0.6064291
-        _center: {x: 15.681416, y: 13.597988, z: 11.538317}
+        _center: {x: 16.056717, y: 8.363376, z: 25.056795}
+        _radius: 8.483285
+        _falloff: 6.887491
     00000004:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _halfValueRadius: 1.1192961
-        _maxValue: 1
-        _a: 1.1192961
-        _b: 1.1192961
-        _center: {x: 6.1551733, y: 7.348937, z: 12.427808}
+        _center: {x: 32.456753, y: 14.036015, z: 28.655523}
+        _radius: 3.9402428
+        _falloff: 4.628662
 --- !u!23 &953878613
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -490,6 +490,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -514,6 +515,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!4 &953878614
 Transform:
   m_ObjectHideFlags: 0
@@ -672,6 +674,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -696,6 +699,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1459321436
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -733,8 +737,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.3066038, g: 0.67709816, b: 1, a: 1}
-  m_Intensity: 3.72
-  m_Range: 24.79
+  m_Intensity: 1.5
+  m_Range: 76.59
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -857,6 +861,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -881,6 +886,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1796402224
 MeshFilter:
   m_ObjectHideFlags: 0

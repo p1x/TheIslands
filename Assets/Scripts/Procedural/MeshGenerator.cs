@@ -36,12 +36,15 @@ namespace TheIslands.Procedural {
                 meshBuilder.Bounds = new Bounds(actualSize / 2, actualSize);
                 
                 var marchingCubes = new MarchingCubes();
-                marchingCubes.Polygonize(Field, 0.5f, step.ToSize(), size.ToSize(), meshBuilder);
+                marchingCubes.Polygonize(Field, isoLevel, step.ToSize(), size.ToSize(), meshBuilder);
             }
         }
 
         public Vector3Int size = new Vector3Int(10, 10, 10); 
         public Vector3 step = new Vector3(1, 1, 1);
+        [Range(0, 1)]
+        public float isoLevel = 0.5f;
+        
         
         [SerializeReference]
         public CompositeField Field = new CompositeField();

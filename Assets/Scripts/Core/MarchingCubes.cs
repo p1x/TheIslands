@@ -3,7 +3,7 @@ using UnityEngine.Profiling;
 
 namespace TheIslands.Core {
     public class MarchingCubes {
-        public void Polygonize(IScalarField field, float isoValue, Size3 step, Size3Int size, IMeshBuilder builder) {
+        public void Polygonize(IScalarField field, float isoLevel, Size3 step, Size3Int size, IMeshBuilder builder) {
             var positions = new Vector3[8];
             var values = new float[8];
 
@@ -53,7 +53,7 @@ namespace TheIslands.Core {
                         
                         Profiler.EndSample();
 
-                        PolygonizeCell(values, positions, isoValue, builder);
+                        PolygonizeCell(values, positions, isoLevel, builder);
                     }
                 }
             }

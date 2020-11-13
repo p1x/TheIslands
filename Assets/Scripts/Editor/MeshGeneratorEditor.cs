@@ -2,6 +2,7 @@
 using TheIslands.Editor.FieldCustomEditor;
 using TheIslands.Procedural;
 using UnityEditor;
+using UnityEngine;
 
 namespace TheIslands.Editor {
     [CustomEditor(typeof(MeshGenerator))]
@@ -13,6 +14,7 @@ namespace TheIslands.Editor {
                 using (var changeCheckScope = new EditorGUI.ChangeCheckScope()) {
                     var size = EditorGUILayout.Vector3IntField("Size", meshGenerator.size).ToSize();
                     var step = EditorGUILayout.Vector3Field("Step", meshGenerator.step).ToSize();
+                    var isoLevel = Mathf.Clamp01(EditorGUILayout.Slider("IsoLevel", meshGenerator.isoLevel, 0, 1));
                     
                     if (changeCheckScope.changed) {
                         meshGenerator.Generate();
@@ -20,6 +22,7 @@ namespace TheIslands.Editor {
                         Undo.RecordObject(target, "Change Fields");
                         meshGenerator.size = size;
                         meshGenerator.step = step;
+                        meshGenerator.isoLevel = isoLevel;
                     }
                 }
 

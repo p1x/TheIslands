@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TheIslands.Core {
     [Serializable]
-    public class CompositeField : ScalarField, IEnumerable {
-        [SerializeReference]
-        private List<ScalarField> _items; 
-        public List<ScalarField> Items => _items ?? (_items = new List<ScalarField>());
-
+    public class CompositeField : CompositeFieldBase {
         public override float GetValue(Vector3 position) {
             if (_items == null) // Empty and not initialized
                 return 0;
@@ -27,9 +21,5 @@ namespace TheIslands.Core {
             }
             return x0;
         }
-
-        public void Add(ScalarField field) => Items.Add(field);
-
-        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
     }
 }

@@ -19,6 +19,7 @@
         <e p="Scripts" t="Include">
           <e p="Core" t="Include">
             <e p="CompositeField.cs" t="Include" />
+            <e p="CompositeFieldBase.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
             <e p="DirectionalField.cs" t="Include" />
             <e p="Edge.cs" t="Include" />
@@ -26,6 +27,8 @@
             <e p="IMeshBuilder.cs" t="Include" />
             <e p="IScalarField.cs" t="Include" />
             <e p="MarchingCubes.cs" t="Include" />
+            <e p="MultiplicativeField.cs" t="Include" />
+            <e p="PerlinNoiseField.cs" t="Include" />
             <e p="ScalarField.cs" t="Include" />
             <e p="Size3.cs" t="Include" />
             <e p="Size3Int.cs" t="Include" />
@@ -42,6 +45,7 @@
               <e p="CompositeFieldEditorGUI.cs" t="Include" />
               <e p="DirectionalFieldEditorGUI.cs" t="Include" />
               <e p="FieldEditorGUI.cs" t="Include" />
+              <e p="PerlinNoiseFieldEditorGUI.cs" t="Include" />
               <e p="ScalarFieldFactory.cs" t="Include" />
               <e p="SphereFieldEditorGUI.cs" t="Include" />
             </e>

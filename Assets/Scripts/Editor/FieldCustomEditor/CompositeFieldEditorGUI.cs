@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace TheIslands.Editor.FieldCustomEditor {
-    [Preserve]
-    public class CompositeFieldEditorGUI : FieldEditorGUI<CompositeField> {
-        public override void OnGUI(CompositeField field) {
+    public abstract class CompositeFieldBaseEditorGUI<T> : FieldEditorGUI<T> where T : CompositeFieldBase {
+        public override void OnGUI(T field) {
             field.Items.RemoveAll(x => {
                 bool remove;
                 using (new EditorGUILayout.HorizontalScope()) {
@@ -25,4 +24,10 @@ namespace TheIslands.Editor.FieldCustomEditor {
                 field.Items.Add(ScalarFieldFactory.Create(fieldNameIndex));
         }
     }
+
+    [Preserve]
+    public class CompositeFieldEditorGUI : CompositeFieldBaseEditorGUI<CompositeField> { }
+    
+    [Preserve]
+    public class MultiplicativeFieldEditorGUI : CompositeFieldBaseEditorGUI<MultiplicativeField> { }
 }

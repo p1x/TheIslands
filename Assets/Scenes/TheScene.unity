@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f2de4977cc11844975817e80398b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 40, y: 40, z: 40}
+  size: {x: 32, y: 32, z: 32}
   step: {x: 1, y: 1, z: 1}
   isoLevel: 0.5
   Field:
@@ -451,30 +451,87 @@ MonoBehaviour:
         - id: 2
         - id: 3
         - id: 4
+        - id: 5
     00000001:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _center: {x: 27.315731, y: 7.6119976, z: 25.851664}
-        _radius: 7.49
-        _falloff: 4.22888
+        _center: {x: 22.44763, y: 9.844103, z: 26.539751}
+        _radius: 7.4973583
+        _falloff: 5.43
     00000002:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _center: {x: 11.816086, y: 6.758732, z: 12.458849}
-        _radius: 6.537099
-        _falloff: 5.0768538
+        _center: {x: 6.890586, y: 10.319462, z: 8.175877}
+        _radius: 7.993967
+        _falloff: 8.28479
     00000003:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _center: {x: 16.056717, y: 8.363376, z: 25.056795}
-        _radius: 8.483285
-        _falloff: 6.887491
+        _center: {x: 10.271513, y: 17.699175, z: 24.254515}
+        _radius: 10.15991
+        _falloff: 8.78
     00000004:
       type: {class: SphereField, ns: TheIslands.Core, asm: Core}
       data:
-        _center: {x: 32.456753, y: 14.036015, z: 28.655523}
-        _radius: 3.9402428
-        _falloff: 4.628662
+        _center: {x: 28.473835, y: 21.677483, z: 23.306658}
+        _radius: 6.63
+        _falloff: 7.02
+    00000005:
+      type: {class: DirectionalField, ns: TheIslands.Core, asm: Core}
+      data:
+        _curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: -0.004247904
+            value: -0.9993593
+            inSlope: -0.0358512
+            outSlope: -0.0358512
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 1
+          - serializedVersion: 3
+            time: 0.18110639
+            value: 0.21611874
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 136
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.37158388
+            value: -0.11513172
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.11155056
+          - serializedVersion: 3
+            time: 0.54847354
+            value: 0.112106524
+            inSlope: 0.026401201
+            outSlope: 0.026401201
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.42495897
+          - serializedVersion: 3
+            time: 1.0072311
+            value: -0.99915874
+            inSlope: -2.4223366
+            outSlope: -2.4223366
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        _start: {x: 0, y: 32.4, z: 0}
+        _end: {x: 0, y: 0, z: 0}
 --- !u!23 &953878613
 MeshRenderer:
   m_ObjectHideFlags: 0

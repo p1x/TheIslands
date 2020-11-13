@@ -31,8 +31,10 @@ namespace TheIslands.Procedural {
 
         public void AddTriangle(Triangle triangle) => AddTriangle(triangle.P0, triangle.P1, triangle.P2);
         public unsafe void AddTriangle(Vector3 p0, Vector3 p1, Vector3 p2) {
-            if (_triangleCount >= _maxTriangleCount)
+            if (_triangleCount >= _maxTriangleCount) {
+                Debug.LogWarning("_triangleCount >= _maxTriangleCount");
                 return;
+            }
 
             var normal = Vector3.Cross(p1 - p0, p2 - p1).normalized;
 

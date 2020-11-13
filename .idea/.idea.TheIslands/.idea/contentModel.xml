@@ -20,6 +20,7 @@
           <e p="Core" t="Include">
             <e p="CompositeField.cs" t="Include" />
             <e p="Core.asmdef" t="Include" />
+            <e p="DirectionalField.cs" t="Include" />
             <e p="Edge.cs" t="Include" />
             <e p="EnumerableExtensions.cs" t="Include" />
             <e p="IMeshBuilder.cs" t="Include" />
@@ -39,12 +40,14 @@
             <e p="Editor.asmdef" t="Include" />
             <e p="FieldCustomEditor" t="Include">
               <e p="CompositeFieldEditorGUI.cs" t="Include" />
+              <e p="DirectionalFieldEditorGUI.cs" t="Include" />
               <e p="FieldEditorGUI.cs" t="Include" />
               <e p="ScalarFieldFactory.cs" t="Include" />
               <e p="SphereFieldEditorGUI.cs" t="Include" />
             </e>
             <e p="FieldEditorTool" t="Include">
               <e p="CompositeFieldTool.cs" t="Include" />
+              <e p="DirectionalFieldTool.cs" t="Include" />
               <e p="FieldEditorTool.cs" t="Include" />
               <e p="ScalarFieldTool.cs" t="Include" />
               <e p="SphereFieldTool.cs" t="Include" />

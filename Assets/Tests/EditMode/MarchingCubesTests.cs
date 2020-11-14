@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using TheIslands.Core;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace TheIslands.Tests.EditMode {
             var testField = new TestField(isoPlane);
             var meshBuilder = new TestMeshBuilder();
 
-            marchingCubes.Polygonize(testField, 0.5f, new Size3(1, 1, 1), new Size3Int(1, 1, 1), meshBuilder);
+            marchingCubes.Polygonize(testField, 0.5f, new Size3(1, 1, 1), new Size3Int(1, 1, 1), meshBuilder, CancellationToken.None);
 
             // Simple and fast asserts
             AssertInPlane(meshBuilder.Triangles, isoPlane);

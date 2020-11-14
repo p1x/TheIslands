@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 using UnityEngine.Profiling;
 
 namespace TheIslands.Core {
     public class MarchingCubes {
-        public void Polygonize(IScalarField field, float isoLevel, Size3 step, Size3Int size, IMeshBuilder builder) {
+        public void Polygonize(IScalarField field, float isoLevel, Size3 step, Size3Int size, IMeshBuilder builder, CancellationToken cancellationToken) {
             var positions = new Vector3[8];
             var values = new float[8];
 
@@ -29,6 +30,9 @@ namespace TheIslands.Core {
                     values[6] = prevRowX1[0] = field.GetValue(positions[6]);
                     
                     for (var k = 0; k < size.Z; k++) {
+                        if (cancellationToken.IsCancellationRequested)
+                            return;
+
                         positions[0] = positions[1];
                         positions[3] = positions[2];
                         positions[4] = positions[5];

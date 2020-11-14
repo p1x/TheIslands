@@ -7,12 +7,32 @@ namespace TheIslands.Core {
         [SerializeField, HideInInspector]
         private float _scale = 1f;
         [SerializeField, HideInInspector]
-        private float _amplitude = 1f;
+        private float _maxValue = 1f;
+        [SerializeField, HideInInspector]
+        private float _minValue = 0;
         [SerializeField, HideInInspector]
         private Vector3 _offset = Vector3.zero;
+        [SerializeField, HideInInspector]
+        private int _octaves = 1;
+        [SerializeField, HideInInspector]
+        private float _persistence = 1;
 
         public override float GetValue(Vector3 position) {
-            return Mathf.Clamp01(Noise((position + _offset) * _scale) * _amplitude);
+            var total = 0f;
+            var frequency = 1f/_scale;
+            var amplitude = 1f;
+            var maxValue = 0f;  // Used for normalizing result to 0.0 - 1.0
+            position += _offset;
+            for (var i = 0; i < _octaves; i++) {
+                total += Noise(position * frequency) * amplitude;
+
+                maxValue += amplitude;
+
+                amplitude *= _persistence;
+                frequency *= 2;
+            }
+
+            return Mathf.Clamp01(total / maxValue) * (_maxValue - _minValue) + _minValue;
         }
 
         private float Noise(Vector3 p) {
@@ -32,14 +52,29 @@ namespace TheIslands.Core {
             set => _scale = value;
         }
         
-        public float Amplitude {
-            get => _amplitude;
-            set => _amplitude = value;
+        public float MaxValue {
+            get => _maxValue;
+            set => _maxValue = value;
         }
-        
+
+        public float MinValue {
+            get => _minValue;
+            set => _minValue = value;
+        }
+
         public Vector3 Offset {
             get => _offset;
             set => _offset = value;
+        }
+
+        public int Octaves {
+            get => _octaves;
+            set => _octaves = value;
+        }
+
+        public float Persistence {
+            get => _persistence;
+            set => _persistence = value;
         }
     }
 }

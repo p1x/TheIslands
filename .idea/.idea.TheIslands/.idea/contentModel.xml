@@ -56,6 +56,23 @@
               <e p="ScalarFieldTool.cs" t="Include" />
               <e p="SphereFieldTool.cs" t="Include" />
             </e>
+            <e p="FieldGraphView" t="Include">
+              <e p="DataSampler.cs" t="Include" />
+              <e p="FieldGraphView.cs" t="Include" />
+              <e p="FieldGraphWindow.cs" t="Include" />
+              <e p="IDataSampler.cs" t="Include" />
+              <e p="Nodes" t="Include">
+                <e p="BorderFieldNode.cs" t="Include" />
+                <e p="ConstantNode.cs" t="Include" />
+                <e p="FieldNode.cs" t="Include" />
+                <e p="MultiplierNode.cs" t="Include" />
+                <e p="PerlinNoiseNode.cs" t="Include" />
+                <e p="ScaleNode.cs" t="Include" />
+              </e>
+              <e p="Resources" t="Include">
+                <e p="FieldGraphView.uss" t="Include" />
+              </e>
+            </e>
             <e p="FieldRenderer.cs" t="Include" />
             <e p="MeshEditorSettingsWindow.cs" t="Include" />
             <e p="MeshGeneratorEditor.cs" t="Include" />
